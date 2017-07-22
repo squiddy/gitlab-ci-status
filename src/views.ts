@@ -50,7 +50,7 @@ function getUserAvatarImage(user: any): string {
 }
 
 export function index(req: express.Request, res: express.Response) {
-  const state = <State>req.app.locals.state;
+  const state = req.app.locals.state as State;
 
   const pipelines = state.pipelines
     .sort((a, b) => {

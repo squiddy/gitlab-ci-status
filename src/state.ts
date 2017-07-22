@@ -3,8 +3,8 @@ import fs = require("fs");
 import { WebhookBuild, WebhookPipeline } from "./types";
 
 export class State {
-  builds: Array<WebhookBuild>;
-  pipelines: Array<WebhookPipeline>;
+  builds: WebhookBuild[];
+  pipelines: WebhookPipeline[];
 
   constructor() {
     this.builds = [];

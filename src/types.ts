@@ -41,6 +41,4 @@ export interface WebhookPipeline {
 
 export type WebhookData = WebhookBuild | WebhookPipeline;
 
-export interface WebhookHandler {
-  (data: WebhookBuild | WebhookPipeline): void;
-}
+export type WebhookHandler = (data: WebhookBuild | WebhookPipeline) => void;

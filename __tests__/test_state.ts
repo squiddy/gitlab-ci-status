@@ -1,5 +1,5 @@
-import { Status } from "../src/types";
 import { State } from "../src/state";
+import { Status } from "../src/types";
 
 const buildData = {
   object_kind: "build",
@@ -8,7 +8,7 @@ const buildData = {
   build_name: "test",
   build_stage: "test",
   build_started_at: "2017",
-  build_status: <Status>"running",
+  build_status: "running" as Status,
   repository: {
     name: "test"
   },
@@ -21,7 +21,7 @@ const pipelineData = {
   object_kind: "pipeline",
   object_attributes: {
     id: 123,
-    status: <Status>"running",
+    status: "running" as Status,
     created_at: "2017",
     ref: "master"
   },

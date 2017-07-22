@@ -4,11 +4,11 @@ import path = require("path");
 import express = require("express");
 import bodyParser = require("body-parser");
 
-import { WebhookBuild, WebhookPipeline, Options } from "./types";
-import { createWebhookHandler } from "./webhook";
 import { State } from "./state";
-import { debugRestore, debugPersist } from "./utils";
+import { Options, WebhookBuild, WebhookPipeline } from "./types";
+import { debugPersist, debugRestore } from "./utils";
 import { index } from "./views";
+import { createWebhookHandler } from "./webhook";
 
 export function createServer(options: Options) {
   const state = new State();
@@ -18,9 +18,9 @@ export function createServer(options: Options) {
 
   const handler = createWebhookHandler("test", data => {
     if (data.object_kind === "build") {
-      state.handleBuild(<WebhookBuild>data);
+      state.handleBuild(data as WebhookBuild);
     } else if (data.object_kind === "pipeline") {
-      state.handlePipeline(<WebhookPipeline>data);
+      state.handlePipeline(data as WebhookPipeline);
     }
 
     if (options.persistPath) {

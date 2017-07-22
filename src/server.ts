@@ -12,7 +12,9 @@ import { index } from "./views";
 
 export function createServer(options: Options) {
   const state = new State();
-  debugRestore(state, options.persistPath);
+  if (options.persistPath) {
+    debugRestore(state, options.persistPath);
+  }
 
   const handler = createWebhookHandler("test", data => {
     if (data.object_kind === "build") {
@@ -21,7 +23,9 @@ export function createServer(options: Options) {
       state.handlePipeline(<WebhookPipeline>data);
     }
 
-    debugPersist(state, options.persistPath);
+    if (options.persistPath) {
+      debugPersist(state, options.persistPath);
+    }
   });
 
   const app = express();
@@ -32,8 +36,13 @@ export function createServer(options: Options) {
   app.post("/webhook/", bodyParser.json(), handler);
   app.get("/", index);
   app.get("/state", (req, res) => {
-    res.type('json').send(state);
+    res.type("json").send(state);
   });
 
+  return app;
+}
+
+export function startServer(options: Options) {
+  const app = createServer(options);
   app.listen(options.port);
 }

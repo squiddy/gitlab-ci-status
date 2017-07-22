@@ -1,6 +1,6 @@
 export interface Options {
   port: number;
-  persistPath: string;
+  persistPath?: string;
 }
 
 export type Status = "failed" | "success" | "skipped" | "running" | "created";

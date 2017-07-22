@@ -1,6 +1,6 @@
-import { createServer } from "./src/server";
+import { startServer } from "./src/server";
 
-createServer({
+startServer({
   port: 3000,
   persistPath: "./appstate.json"
 });

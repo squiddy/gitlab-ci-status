@@ -1,20 +1,35 @@
+import { Status } from "../src/types";
 import { State } from "../src/state";
 
 const buildData = {
   object_kind: "build",
+  ref: "master",
   build_id: 123,
   build_name: "test",
   build_stage: "test",
   build_started_at: "2017",
-  build_status: "running"
+  build_status: <Status>"running",
+  repository: {
+    name: "test"
+  },
+  user: {
+    name: "test"
+  }
 };
 
 const pipelineData = {
   object_kind: "pipeline",
   object_attributes: {
     id: 123,
-    status: "running",
-    created_at: "2017"
+    status: <Status>"running",
+    created_at: "2017",
+    ref: "master"
+  },
+  project: {
+    name: "test"
+  },
+  user: {
+    name: "test"
   }
 };
 

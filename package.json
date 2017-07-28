@@ -7,7 +7,8 @@
   "author": "Reiner Gerecke",
   "license": "MIT",
   "scripts": {
-    "start": "yarn run build:live",
+    "start": "node index.js",
+    "start:live": "yarn run build:live",
     "build": "tsc",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node --inspect -- ./index.ts",
     "test:watch": "jest --watch --verbose",

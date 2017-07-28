@@ -1,6 +1,6 @@
 import { startServer } from "./src/server";
 
 startServer({
-  port: 3000,
-  persistPath: "./appstate.json"
+  port: Number(process.env.APP_PORT) || 3000,
+  persistPath: process.env.APP_STATE_FILE_PATH || "./appstate.json"
 });

@@ -6,14 +6,14 @@ import bodyParser = require("body-parser");
 
 import { State } from "./state";
 import { Options, WebhookBuild, WebhookPipeline } from "./types";
-import { debugPersist, debugRestore } from "./utils";
+import { persistState, restoreState } from "./utils";
 import { index } from "./views";
 import { createWebhookHandler } from "./webhook";
 
 export function createServer(options: Options) {
   const state = new State();
   if (options.persistPath) {
-    debugRestore(state, options.persistPath);
+    restoreState(state, options.persistPath);
   }
 
   const handler = createWebhookHandler("test", data => {
@@ -24,7 +24,7 @@ export function createServer(options: Options) {
     }
 
     if (options.persistPath) {
-      debugPersist(state, options.persistPath);
+      persistState(state, options.persistPath);
     }
   });
 

@@ -2,7 +2,7 @@ import fs = require("fs");
 
 import { State } from "./state";
 
-export function debugRestore(state: State, filename: string) {
+export function restoreState(state: State, filename: string) {
   try {
     const data = JSON.parse(fs.readFileSync(filename, "utf8"));
     if (data) {
@@ -10,11 +10,11 @@ export function debugRestore(state: State, filename: string) {
       state.pipelines = data.pipelines;
     }
   } catch (err) {
-    console.log("warning", err);
+    console.log("Couldn't restore state from disk:", err);
   }
 }
 
-export function debugPersist(state: State, filename: string) {
+export function persistState(state: State, filename: string) {
   try {
     fs.writeFileSync(
       filename,
@@ -24,6 +24,6 @@ export function debugPersist(state: State, filename: string) {
       })
     );
   } catch (err) {
-    console.log("sdsdf", err);
+    console.log("Couldn't persist state to disk:", err);
   }
 }

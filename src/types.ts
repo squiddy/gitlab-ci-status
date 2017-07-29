@@ -21,6 +21,10 @@ export interface WebhookBuild {
   };
 }
 
+export interface Avatar {
+  avatar_url?: string;
+}
+
 export interface WebhookPipeline {
   object_kind: string;
   object_attributes: {
@@ -29,13 +33,11 @@ export interface WebhookPipeline {
     created_at: string;
     ref: string;
   };
-  user: {
+  user: Avatar & {
     name: string;
-    avatar_url?: string;
   };
-  project: {
+  project: Avatar & {
     name: string;
-    avatar_url?: string;
   };
 }
 

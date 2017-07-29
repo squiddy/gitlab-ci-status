@@ -1,9 +1,11 @@
 import path = require("path");
 import fs = require("fs");
+import url = require("url");
 
 import express = require("express");
 
 import { State } from "./state";
+import { Avatar } from "./types";
 
 function includeSvg(name: string): string {
   return fs.readFileSync(path.join(__dirname, `public/${name}.svg`), "utf-8");
@@ -19,24 +21,19 @@ const icons = {
 
 const imageBaseUrl = "http://gitlab.bof.mm.local";
 
-function getProjectAvatarImage(project: any): string {
-  if (project.avatar_url) {
-    return `<img class="avatar" src="${imageBaseUrl}${project.avatar_url}" />`;
-  } else {
-    return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-           viewBox="0 0 14 14"
-           class="avatar avatar-empty">
-        <circle cx="7" cy="7" r="6"></circle>
-      </svg>
-    `;
-  }
-}
+function getAvatarImage(obj?: Avatar): string {
+  if (obj && obj.avatar_url) {
+    // Handle both relative (gitlab) or absolute (e.g. gravatar) URLs.
+    const parsed = url.parse(obj.avatar_url);
 
-function getUserAvatarImage(user: any): string {
-  if (user && user.avatar_url) {
-    return `<img class="avatar" src="${imageBaseUrl}${user.avatar_url}" />`;
-  } else if (user) {
+    let finalUrl;
+    if (parsed.host) {
+      finalUrl = obj.avatar_url;
+    } else {
+      finalUrl = imageBaseUrl + obj.avatar_url;
+    }
+    return `<img class="avatar" src="${finalUrl}" />`;
+  } else {
     return `
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
            viewBox="0 0 14 14"
@@ -44,8 +41,6 @@ function getUserAvatarImage(user: any): string {
         <circle cx="7" cy="7" r="6"></circle>
       </svg>
     `;
-  } else {
-    return "";
   }
 }
 
@@ -60,8 +55,8 @@ export function index(req: express.Request, res: express.Response) {
       return `
         <li class="queue-entry pipeline">
           <div class="avatars">
-            ${getUserAvatarImage(p.user)}
-            ${getProjectAvatarImage(p.project)}
+            ${getAvatarImage(p.user)}
+            ${getAvatarImage(p.project)}
           </div>
           <div class="info">
             <strong>${p.project.name}</strong>

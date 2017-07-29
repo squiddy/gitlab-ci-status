@@ -15,6 +15,7 @@ const icons = {
   failed: includeSvg("failed"),
   success: includeSvg("success"),
   skipped: includeSvg("skipped"),
+  canceled: includeSvg("skipped"),
   running: includeSvg("running"),
   created: includeSvg("created")
 };

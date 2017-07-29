@@ -50,7 +50,10 @@ export function index(req: express.Request, res: express.Response) {
 
   const pipelines = state.pipelines
     .sort((a, b) => {
-      return +(a.object_attributes.created_at < b.object_attributes.created_at);
+      const isSmaller =
+        new Date(a.object_attributes.created_at) <
+        new Date(b.object_attributes.created_at);
+      return isSmaller ? 1 : -1;
     })
     .map(p => {
       return `
@@ -74,7 +77,9 @@ export function index(req: express.Request, res: express.Response) {
 
   const builds = state.builds
     .sort((a, b) => {
-      return +(a.build_started_at < b.build_started_at);
+      const isSmaller =
+        new Date(a.build_started_at) < new Date(b.build_started_at);
+      return isSmaller ? 1 : -1;
     })
     .map(b => {
       return `

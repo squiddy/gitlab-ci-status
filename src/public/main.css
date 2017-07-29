@@ -57,16 +57,6 @@ main {
   justify-content: space-between;
 }
 
-.queue-entry .id {
-  opacity: 0.3;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.queue-entry .id::before {
-  content: '#';
-}
-
 .pipeline .avatars {
   margin-right: 10px;
 }

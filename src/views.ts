@@ -66,9 +66,6 @@ export function index(req: express.Request, res: express.Response) {
             ${p.object_attributes.status}
             ${icons[p.object_attributes.status]}
           </div>
-          <div class="id">
-            ${p.object_attributes.id}
-          </div>
         </li>
       `;
     })
@@ -89,9 +86,6 @@ export function index(req: express.Request, res: express.Response) {
           <div class="status-info status-${b.build_status}">
             ${b.build_status}
             ${icons[b.build_status]}
-          </div>
-          <div class="id">
-            ${b.build_id}
           </div>
         </li>
       `;

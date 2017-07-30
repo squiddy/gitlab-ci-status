@@ -81,6 +81,10 @@ export function index(req: express.Request, res: express.Response) {
         new Date(a.build_started_at) < new Date(b.build_started_at);
       return isSmaller ? 1 : -1;
     })
+    .filter(b => {
+      const ignoreStates = ["skipped", "created"];
+      return ignoreStates.indexOf(b.build_status) === -1;
+    })
     .map(b => {
       return `
         <li class="queue-entry build">

@@ -88,9 +88,10 @@ export function index(req: express.Request, res: express.Response) {
             <strong>${b.repository.name}</strong>
             ${b.ref}
           </div>
-          ${b.build_name}
+          <div class="name">
+            ${b.build_name}
+          </div>
           <div class="status-info status-${b.build_status}">
-            ${b.build_status}
             ${icons[b.build_status]}
           </div>
         </li>

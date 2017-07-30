@@ -112,3 +112,11 @@ main {
 .build {
   font-size: 0.8em;
 }
+
+.build .info {
+  flex-grow: 1;
+}
+
+.build .name {
+  margin-right: 20px;
+}

@@ -125,3 +125,24 @@ main {
   opacity: 0.8;
   filter: grayscale(1);
 }
+
+main.stats {
+  display: flex;
+  align-items: stretch;
+}
+
+.stat {
+  flex-basis: 200px;
+  padding: 2em;
+  text-align: center;
+  background: #f9f9f9;
+  box-shadow: 3px 3px 0 0 #e6e6e6;
+  margin: 1em;
+  color: #888;
+}
+
+.stat strong {
+  color: #000;
+  display: block;
+  font-size: 3em;
+}

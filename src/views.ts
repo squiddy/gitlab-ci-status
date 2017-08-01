@@ -3,7 +3,8 @@ import fs = require("fs");
 import url = require("url");
 
 import express = require("express");
-import { differenceInHours } from "date-fns";
+import * as d3 from "d3-array";
+import { differenceInHours, differenceInSeconds, format } from "date-fns";
 
 import { State } from "./state";
 import { Avatar } from "./types";
@@ -128,7 +129,7 @@ export function index(req: express.Request, res: express.Response) {
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="100000">
     <title>GitLab CI Status</title>
     <link rel="stylesheet" href="/main.css" />
     <body>
@@ -145,6 +146,71 @@ export function index(req: express.Request, res: express.Response) {
             ${builds}
           </ul>
         </div>
+      </main>
+      <nav>
+        <a href="/state">State</a>
+        <a href="/stats">Stats</a>
+      </nav>
+    </body>
+  `);
+}
+
+export function stats(req: express.Request, res: express.Response) {
+  const state = req.app.locals.state as State;
+
+  const pipelineCount = state.pipelines.length;
+  const buildCount = state.builds.length;
+  const successfulPipelineCount = state.pipelines.filter(
+    p => p.object_attributes.status === "success"
+  ).length;
+  const successfulBuildCount = state.builds.filter(
+    b => b.build_status === "success"
+  ).length;
+
+  const averageBuildRuntime = d3.mean(
+    state.builds.map(b => {
+      if (b.build_started_at && b.build_finished_at) {
+        return differenceInSeconds(b.build_finished_at, b.build_started_at);
+      } else {
+        return NaN;
+      }
+    })
+  );
+
+  res.send(`
+    <!doctype html>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="100000">
+    <title>GitLab CI Status - Stats</title>
+    <link rel="stylesheet" href="/main.css" />
+    <body>
+      <main class="stats">
+        <div class="stat">
+          <strong>${pipelineCount}</strong>
+          <span>Pipelines</span>
+        </div>
+        <div class="stat">
+          <strong>${Math.round(
+            successfulPipelineCount / pipelineCount * 100
+          )}%</strong>
+          <span>Pipelines successful</span>
+        </div>
+        <div class="stat">
+          <strong>${buildCount}</strong>
+          <span>Builds</span>
+        </div>
+        <div class="stat">
+          <strong>${Math.round(
+            successfulBuildCount / buildCount * 100
+          )}%</strong>
+          <span>Builds successful</span>
+        </div>
+        ${averageBuildRuntime
+          ? `<div class="stat">
+               <strong>${Math.round(averageBuildRuntime)}s</strong>
+               <span>mean Build runtime</span>
+             </div>`
+          : null}
       </main>
     </body>
   `);

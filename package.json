@@ -29,8 +29,10 @@
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
   },
   "dependencies": {
+    "@types/d3-array": "^1.2.0",
     "@types/date-fns": "^2.6.0",
     "body-parser": "^1.17.2",
+    "d3-array": "^1.2.0",
     "date-fns": "^1.28.5",
     "express": "^4.15.3"
   },

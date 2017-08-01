@@ -7,7 +7,7 @@ import bodyParser = require("body-parser");
 import { State } from "./state";
 import { Options, WebhookBuild, WebhookPipeline } from "./types";
 import { persistState, restoreState } from "./utils";
-import { index } from "./views";
+import { index, stats } from "./views";
 import { createWebhookHandler } from "./webhook";
 
 export function createServer(options: Options) {
@@ -35,6 +35,7 @@ export function createServer(options: Options) {
   app.use(express.static(publicDir));
   app.post("/webhook/", bodyParser.json(), handler);
   app.get("/", index);
+  app.get("/stats", stats);
   app.get("/state", (req, res) => {
     res.type("json").send(state);
   });

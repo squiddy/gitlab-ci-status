@@ -129,7 +129,7 @@ export function index(req: express.Request, res: express.Response) {
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="100000">
+    <meta http-equiv="refresh" content="10">
     <title>GitLab CI Status</title>
     <link rel="stylesheet" href="/main.css" />
     <body>
@@ -180,7 +180,7 @@ export function stats(req: express.Request, res: express.Response) {
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="100000">
+    <meta http-equiv="refresh" content="10">
     <title>GitLab CI Status - Stats</title>
     <link rel="stylesheet" href="/main.css" />
     <body>

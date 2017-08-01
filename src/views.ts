@@ -64,6 +64,7 @@ export function index(req: express.Request, res: express.Response) {
         new Date(b.object_attributes.created_at);
       return isSmaller ? 1 : -1;
     })
+    .slice(0, 30)
     .map(p => {
       let cssClass = "";
       if (p.object_attributes.finished_at) {
@@ -99,6 +100,7 @@ export function index(req: express.Request, res: express.Response) {
       const ignoreStates = ["skipped", "created"];
       return ignoreStates.indexOf(b.build_status) === -1;
     })
+    .slice(0, 30)
     .map(b => {
       let cssClass = "";
       if (b.build_finished_at) {

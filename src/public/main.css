@@ -120,3 +120,8 @@ main {
 .build .name {
   margin-right: 20px;
 }
+
+.age-old {
+  opacity: 0.8;
+  filter: grayscale(1);
+}

@@ -3,6 +3,7 @@ import fs = require("fs");
 import url = require("url");
 
 import express = require("express");
+import { differenceInHours } from "date-fns";
 
 import { State } from "./state";
 import { Avatar } from "./types";
@@ -45,6 +46,14 @@ function getAvatarImage(obj?: Avatar): string {
   }
 }
 
+export function getAgeCssClass(date: Date): string {
+  const hoursOld = differenceInHours(Date.now(), date);
+  if (hoursOld > 4) {
+    return "age-old";
+  }
+  return "";
+}
+
 export function index(req: express.Request, res: express.Response) {
   const state = req.app.locals.state as State;
 
@@ -56,8 +65,13 @@ export function index(req: express.Request, res: express.Response) {
       return isSmaller ? 1 : -1;
     })
     .map(p => {
+      let cssClass = "";
+      if (p.object_attributes.finished_at) {
+        const finished = new Date(p.object_attributes.finished_at);
+        cssClass = getAgeCssClass(finished);
+      }
       return `
-        <li class="queue-entry pipeline">
+        <li class="queue-entry pipeline ${cssClass}">
           <div class="avatars">
             ${getAvatarImage(p.user)}
             ${getAvatarImage(p.project)}
@@ -86,8 +100,14 @@ export function index(req: express.Request, res: express.Response) {
       return ignoreStates.indexOf(b.build_status) === -1;
     })
     .map(b => {
+      let cssClass = "";
+      if (b.build_finished_at) {
+        const finished = new Date(b.build_finished_at);
+        cssClass = getAgeCssClass(finished);
+      }
+
       return `
-        <li class="queue-entry build">
+        <li class="queue-entry build ${cssClass}">
           <div class="info">
             <strong>${b.repository.name}</strong>
             ${b.ref}

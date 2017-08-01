@@ -13,6 +13,7 @@ export interface WebhookBuild {
   build_stage: string;
   build_status: Status;
   build_started_at: string;
+  build_finished_at?: string;
   repository: {
     name: string;
   };
@@ -31,6 +32,7 @@ export interface WebhookPipeline {
     id: number;
     status: Status;
     created_at: string;
+    finished_at?: string;
     ref: string;
   };
   user: Avatar & {

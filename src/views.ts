@@ -19,7 +19,8 @@ const icons = {
   skipped: includeSvg("skipped"),
   canceled: includeSvg("skipped"),
   running: includeSvg("running"),
-  created: includeSvg("created")
+  created: includeSvg("created"),
+  pending: includeSvg("pending")
 };
 
 const imageBaseUrl = "http://gitlab.bof.mm.local";

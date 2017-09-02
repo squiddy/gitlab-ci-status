@@ -32,6 +32,7 @@ export function createServer(options: Options) {
   const app = express();
   app.locals.state = state;
 
+  app.set("etag", false);
   app.use(
     morgan(":date - :remote-addr - ':method :url' :status :response-time ms")
   );

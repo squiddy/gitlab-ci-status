@@ -4,7 +4,7 @@ import url = require("url");
 
 import express = require("express");
 import * as d3 from "d3-array";
-import { differenceInHours, differenceInSeconds, format } from "date-fns";
+import { differenceInHours, differenceInSeconds, format, distanceInWords } from "date-fns";
 
 import { State } from "./state";
 import { Avatar } from "./types";
@@ -73,19 +73,32 @@ export function index(req: express.Request, res: express.Response) {
         const finished = new Date(p.object_attributes.finished_at);
         cssClass = getAgeCssClass(finished);
       }
+
+      const duration = distanceInWords(
+        new Date(p.object_attributes.finished_at || ""),
+        new Date(p.object_attributes.created_at).getTime()
+      );
+
       return `
-        <li class="queue-entry pipeline ${cssClass}">
-          <div class="avatars">
-            ${getAvatarImage(p.user)}
-            ${getAvatarImage(p.project)}
+        <li class="queue-entry">
+          <div class="queue-entry-body pipeline ${cssClass}">
+            <div class="avatars">
+              ${getAvatarImage(p.user)}
+              ${getAvatarImage(p.project)}
+            </div>
+            <div class="info">
+              <strong>${p.project.name}</strong>
+              ${p.object_attributes.ref}
+            </div>
+            <div class="status-info status-${p.object_attributes.status}">
+              ${p.object_attributes.status}
+              ${icons[p.object_attributes.status]}
+            </div>
           </div>
-          <div class="info">
-            <strong>${p.project.name}</strong>
-            ${p.object_attributes.ref}
-          </div>
-          <div class="status-info status-${p.object_attributes.status}">
-            ${p.object_attributes.status}
-            ${icons[p.object_attributes.status]}
+          <div class="queue-entry-footer">
+            <div class="duration">
+              ${duration}
+            </div>
           </div>
         </li>
       `;
@@ -110,17 +123,29 @@ export function index(req: express.Request, res: express.Response) {
         cssClass = getAgeCssClass(finished);
       }
 
+      const duration = distanceInWords(
+        new Date(b.build_finished_at || "").getTime(),
+        new Date(b.build_started_at).getTime()
+      );
+
       return `
-        <li class="queue-entry build ${cssClass}">
-          <div class="info">
-            <strong>${b.repository.name}</strong>
-            ${b.ref}
+        <li class="queue-entry">
+          <div class="queue-entry-body build ${cssClass}">
+            <div class="info">
+              <strong>${b.repository.name}</strong>
+              ${b.ref}
+            </div>
+            <div class="name">
+              ${b.build_name}
+            </div>
+            <div class="status-info status-${b.build_status}">
+              ${icons[b.build_status]}
+            </div>
           </div>
-          <div class="name">
-            ${b.build_name}
-          </div>
-          <div class="status-info status-${b.build_status}">
-            ${icons[b.build_status]}
+          <div class="queue-entry-footer">
+            <div class="duration">
+              ${duration}
+            </div>
           </div>
         </li>
       `;
@@ -130,7 +155,7 @@ export function index(req: express.Request, res: express.Response) {
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="10000000">
     <title>GitLab CI Status</title>
     <link rel="stylesheet" href="/main.css" />
     <body>

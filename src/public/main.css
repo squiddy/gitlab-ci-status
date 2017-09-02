@@ -32,8 +32,17 @@ main {
 .queue-entry {
   background: #f9f9f9;
   box-shadow: 3px 3px 0 0 #e6e6e6;
-  padding: 1em;
   margin-bottom: 1em;
+}
+
+.queue-entry-body {
+  padding: 1em;
+  padding-bottom: 0.5em;
+}
+
+.queue-entry-footer {
+  border-top: 1px solid #e6e6e6;
+  padding: 0.3em 1em 0.3em 1em;
 }
 
 .avatar {
@@ -51,7 +60,7 @@ main {
   stroke-width: 0.001px;
 }
 
-.queue-entry {
+.queue-entry-body {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -87,7 +96,7 @@ main {
   align-items: center;
   text-transform: uppercase;
   font-weight: 700;
-  margin-right: 20px;
+  margin-right: 4px;
 }
 
 .pipeline .status-info svg {
@@ -145,4 +154,10 @@ main.stats {
   color: #000;
   display: block;
   font-size: 3em;
+}
+
+.duration {
+  font-size: 0.8em;
+  color: #888;
+  text-align: right;
 }

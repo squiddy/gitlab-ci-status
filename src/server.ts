@@ -50,7 +50,7 @@ export function createServer(options: Options) {
 
 export function startServer(options: Options) {
   const app = createServer(options);
-  app.listen(options.port, (err: any) => {
+  return app.listen(options.port, (err: any) => {
     if (err) {
       console.log(err);
     }

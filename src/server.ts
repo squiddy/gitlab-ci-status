@@ -2,6 +2,7 @@ import fs = require("fs");
 import path = require("path");
 
 import express = require("express");
+import morgan = require("morgan");
 import bodyParser = require("body-parser");
 
 import { State } from "./state";
@@ -31,6 +32,10 @@ export function createServer(options: Options) {
   const app = express();
   app.locals.state = state;
 
+  app.use(
+    morgan(":date - :remote-addr - ':method :url' :status :response-time ms")
+  );
+
   const publicDir = path.join(__dirname, "public");
   app.use(express.static(publicDir));
   app.post("/webhook/", bodyParser.json(), handler);
@@ -45,5 +50,11 @@ export function createServer(options: Options) {
 
 export function startServer(options: Options) {
   const app = createServer(options);
-  app.listen(options.port);
+  app.listen(options.port, (err: any) => {
+    if (err) {
+      console.log(err);
+    }
+
+    console.log("Server running ...");
+  });
 }

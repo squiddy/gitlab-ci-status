@@ -122,6 +122,28 @@ export interface WebhookPipeline {
   builds: WebhookPipelineBuild[];
 }
 
+export interface Pipeline {
+  id: number;
+  ref: string;
+  status: Status;
+  created_at: string;
+  finished_at?: string;
+  duration?: number;
+  user: User;
+  project: Avatar & {
+    name: string;
+  };
+  builds: number[];
+}
+
+export interface Build {
+  id: number;
+  stage: string;
+  status: Status;
+  started_at: string;
+  finished_at?: string;
+}
+
 export type WebhookData = WebhookBuild | WebhookPipeline;
 
 export type WebhookHandler = (data: WebhookData) => void;

@@ -30,31 +30,27 @@ const pipelineData = {
   },
   user: {
     name: "test"
-  }
+  },
+  builds: [
+    {
+      id: 123,
+      status: "created"
+    }
+  ]
 };
 
 test("State can be constructed", () => {
   const state = new State();
-  expect(state.builds).toHaveLength(0);
   expect(state.pipelines).toHaveLength(0);
-});
-
-test("State can handle new builds", () => {
-  const state = new State();
-  state.handleBuild(buildData);
-  expect(state.builds).toHaveLength(1);
-  expect(state.builds[0].build_id).toBe(123);
 });
 
 test("State can handle updating builds", () => {
   const state = new State();
-  state.handleBuild(buildData);
-  expect(state.builds).toHaveLength(1);
-  expect(state.builds[0].build_status).toBe("running");
+  state.pipelines = [pipelineData];
+  expect(state.pipelines[0].builds[0].status).toBe("created");
 
-  state.handleBuild({ ...buildData, build_status: "success" });
-  expect(state.builds).toHaveLength(1);
-  expect(state.builds[0].build_status).toBe("success");
+  state.handleBuild(buildData);
+  expect(state.pipelines[0].builds[0].status).toBe("running");
 });
 
 test("State can handle new pipelines", () => {

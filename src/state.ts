@@ -40,5 +40,16 @@ export class State {
     };
 
     this.pipelines.set(entry.id, entry);
+
+    data.builds.forEach(build => {
+      this.builds.set(build.id, {
+        id: build.id,
+        stage: build.stage,
+        status: build.status,
+        started_at: build.started_at,
+        finished_at: build.finished_at,
+        _raw: build
+      });
+    });
   }
 }

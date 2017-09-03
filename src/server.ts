@@ -17,7 +17,7 @@ export function createServer(options: Options) {
     restoreState(state, options.persistPath);
   }
 
-  const handler = createWebhookHandler("test", data => {
+  const handler = createWebhookHandler(options.webhookSecret, data => {
     if (data.object_kind === "build") {
       state.handleBuild(data as WebhookBuild);
     } else if (data.object_kind === "pipeline") {

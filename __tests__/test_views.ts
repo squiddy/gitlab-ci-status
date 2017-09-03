@@ -6,7 +6,8 @@ let app;
 
 beforeEach(() => {
   app = createServer({
-    port: 3000
+    port: 3000,
+    webhookSecret: "test"
   });
 });
 

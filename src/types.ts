@@ -1,4 +1,5 @@
 export interface Options {
+  webhookSecret: string;
   port: number;
   persistPath?: string;
 }

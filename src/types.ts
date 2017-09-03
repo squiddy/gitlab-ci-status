@@ -134,6 +134,7 @@ export interface Pipeline {
     name: string;
   };
   builds: number[];
+  _raw: object;
 }
 
 export interface Build {
@@ -142,6 +143,7 @@ export interface Build {
   status: Status;
   started_at: string;
   finished_at?: string;
+  _raw: object;
 }
 
 export type WebhookData = WebhookBuild | WebhookPipeline;

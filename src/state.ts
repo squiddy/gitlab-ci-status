@@ -15,7 +15,8 @@ export class State {
       stage: data.build_stage,
       status: data.build_status,
       started_at: data.build_started_at,
-      finished_at: data.build_finished_at
+      finished_at: data.build_finished_at,
+      _raw: data
     };
 
     this.builds.set(data.build_id, entry);
@@ -34,7 +35,8 @@ export class State {
         name: data.project.name,
         avatar_url: data.project.avatar_url
       },
-      builds: data.builds.map(b => b.id)
+      builds: data.builds.map(b => b.id),
+      _raw: data
     };
 
     this.pipelines.set(entry.id, entry);

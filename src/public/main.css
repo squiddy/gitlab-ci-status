@@ -7,32 +7,19 @@ body {
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-main {
-  display: flex;
-}
-
-.main-box {
-  flex: 1;
-  margin: 2em;
-  margin-top: 0;
-}
-
-.main-box-heading {
-  text-align: center;
-  opacity: 0.3;
-  font-size: 1rem;
-}
-
 .queue {
   padding: 0;
   margin: 0;
   list-style: none;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-auto-flow: dense;
 }
 
 .queue-entry {
   background: #f9f9f9;
   box-shadow: 3px 3px 0 0 #e6e6e6;
-  margin-bottom: 1em;
+  margin: 0.5em;
 }
 
 .queue-entry-body {
@@ -43,6 +30,8 @@ main {
 .queue-entry-footer {
   border-top: 1px solid #e6e6e6;
   padding: 0.3em 1em 0.3em 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 .avatar {
@@ -99,35 +88,18 @@ main {
   margin-right: 4px;
 }
 
-.pipeline .status-info svg {
+.status-info svg {
   transform: scale(2);
   margin-left: 20px;
 }
 
-.build .status-info svg {
-  transform: scale(1.5);
+.info {
+  margin-right: auto;
   margin-left: 10px;
 }
 
-.pipeline .info {
-  margin-right: auto;
-}
-
-.pipeline .info strong,
-.build .info strong {
+.info strong {
   display: block;
-}
-
-.build {
-  font-size: 0.8em;
-}
-
-.build .info {
-  flex-grow: 1;
-}
-
-.build .name {
-  margin-right: 20px;
 }
 
 .age-old {
@@ -160,4 +132,14 @@ main.stats {
   font-size: 0.8em;
   color: #888;
   text-align: right;
+}
+
+.pipeline-graph {
+  display: flex;
+  padding: 0;
+  list-style-type: none;
+}
+
+.pipeline-graph li {
+  margin-right: 2px;
 }

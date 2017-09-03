@@ -43,7 +43,10 @@ export function createServer(options: Options) {
   app.get("/", index);
   app.get("/stats", stats);
   app.get("/state", (req, res) => {
-    res.type("json").send(state);
+    res.type("json").send({
+      builds: Array.from(state.builds.entries()),
+      pipelines: Array.from(state.pipelines.entries())
+    });
   });
 
   return app;

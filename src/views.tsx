@@ -33,7 +33,7 @@ const icons = {
 function StatusIcon({ status }: { status: Status }) {
   // Renders a visual icon for the build/pipeline status.
   const data = icons[status] as string;
-  return <div dangerouslySetInnerHTML={{ __html: data }} />;
+  return <span dangerouslySetInnerHTML={{ __html: data }} />;
 }
 
 function AvatarImage({ obj }: { obj?: Avatar }) {
@@ -76,12 +76,30 @@ function Duration({ start, end }: { start: string; end?: string }) {
 
   return (
     <div className="duration">
-      {duration}
+      took {duration}
     </div>
   );
 }
 
-function Pipeline({ pipeline }: { pipeline: Pipeline }) {
+function PipelineGraph({ builds }: { builds: Build[] }) {
+  return (
+    <ul className="pipeline-graph">
+      {builds.map(b =>
+        <li>
+          {b && <StatusIcon status={b.status} />}
+        </li>
+      )}
+    </ul>
+  );
+}
+
+function Pipeline({
+  pipeline,
+  builds
+}: {
+  pipeline: Pipeline;
+  builds: Build[];
+}) {
   // Renders a single pipeline.
   let cssClass = "";
   if (pipeline.finished_at) {
@@ -109,6 +127,7 @@ function Pipeline({ pipeline }: { pipeline: Pipeline }) {
       </div>
       <div className="queue-entry-footer">
         <Duration start={pipeline.created_at} end={pipeline.finished_at} />
+        <PipelineGraph builds={builds} />
       </div>
     </li>
   );
@@ -122,11 +141,21 @@ export function getAgeCssClass(date: Date): string {
   return "";
 }
 
-function Main({ pipelines }: { pipelines: Pipeline[] }) {
+function Main({ state }: { state: State }) {
+  const pipelines = Array.from(state.pipelines.values())
+    .sort((a, b) => {
+      const isSmaller = new Date(a.created_at) < new Date(b.created_at);
+      return isSmaller ? 1 : -1;
+    })
+    .slice(0, 30);
+
   return (
     <main>
       <ul className="queue">
-        {pipelines.map((p, idx) => <Pipeline pipeline={p} key={idx} />)}
+        {pipelines.map((p, idx) => {
+          const builds = p.builds.map(id => state.builds.get(id) as Build);
+          return <Pipeline pipeline={p} builds={builds} key={idx} />;
+        })}
       </ul>
     </main>
   );
@@ -135,14 +164,7 @@ function Main({ pipelines }: { pipelines: Pipeline[] }) {
 export function index(req: express.Request, res: express.Response) {
   const state = req.app.locals.state as State;
 
-  const pipelines = Array.from(state.pipelines.values())
-    .sort((a, b) => {
-      const isSmaller = new Date(a.created_at) < new Date(b.created_at);
-      return isSmaller ? 1 : -1;
-    })
-    .slice(0, 30);
-
-  const html = renderToStaticMarkup(<Main pipelines={pipelines} />);
+  const html = renderToStaticMarkup(<Main state={state} />);
 
   res.send(`
     <!doctype html>

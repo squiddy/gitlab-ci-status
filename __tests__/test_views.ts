@@ -16,7 +16,13 @@ test("url '/' works", () => {
 });
 
 test("url '/state' exposes current state", () => {
-  return request(app).get("/state").expect(app.locals.state);
+  app.locals.state.builds.set(1, "b1");
+  app.locals.state.pipelines.set(3, "p1");
+
+  return request(app).get("/state").expect({
+    builds: [[1, "b1"]],
+    pipelines: [[3, "p1"]]
+  });
 });
 
 test("url '/webhook/' handles build events", () => {

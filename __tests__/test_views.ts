@@ -20,7 +20,9 @@ test("url '/state' exposes current state", () => {
 });
 
 test("url '/webhook/' handles build events", () => {
-  const spy = jest.spyOn(app.locals.state, "handleBuild");
+  const spy = jest
+    .spyOn(app.locals.state, "handleBuild")
+    .mockImplementation(() => null);
   return request(app)
     .post("/webhook/")
     .set("x-gitlab-token", "test")
@@ -32,7 +34,9 @@ test("url '/webhook/' handles build events", () => {
 });
 
 test("url '/webhook/' handles pipeline events", () => {
-  const spy = jest.spyOn(app.locals.state, "handlePipeline");
+  const spy = jest
+    .spyOn(app.locals.state, "handlePipeline")
+    .mockImplementation(() => null);
   return request(app)
     .post("/webhook/")
     .set("x-gitlab-token", "test")

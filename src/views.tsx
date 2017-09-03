@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 
 import { State } from "./state";
-import { Avatar, Status, WebhookBuild, WebhookPipeline } from "./types";
+import { Avatar, Build, Pipeline, Status } from "./types";
 
 function includeSvg(name: string): string {
   return fs.readFileSync(path.join(__dirname, `public/${name}.svg`), "utf-8");
@@ -81,19 +81,17 @@ function Duration({ start, end }: { start: string; end?: string }) {
   );
 }
 
-function Pipeline({ pipeline }: { pipeline: WebhookPipeline }) {
+function Pipeline({ pipeline }: { pipeline: Pipeline }) {
   // Renders a single pipeline.
-  const attrs = pipeline.object_attributes;
-
   let cssClass = "";
-  if (attrs.finished_at) {
-    const finished = new Date(attrs.finished_at);
+  if (pipeline.finished_at) {
+    const finished = new Date(pipeline.finished_at);
     cssClass = getAgeCssClass(finished);
   }
 
   return (
     <li className={`queue-entry ${cssClass}`}>
-      <div className="queue-entry-body pipeline">
+      <div className="queue-entry-body">
         <div className="avatars">
           <AvatarImage obj={pipeline.user} />
           <AvatarImage obj={pipeline.project} />
@@ -102,52 +100,15 @@ function Pipeline({ pipeline }: { pipeline: WebhookPipeline }) {
           <strong>
             {pipeline.project.name}
           </strong>
-          {attrs.ref}
+          {pipeline.ref}
         </div>
-        <div className={`status-info status-${attrs.status}`}>
-          {attrs.status}
-          <StatusIcon status={attrs.status} />
-        </div>
-      </div>
-      <div className="queue-entry-footer">
-        <Duration
-          start={pipeline.object_attributes.created_at}
-          end={pipeline.object_attributes.finished_at}
-        />
-      </div>
-    </li>
-  );
-}
-
-function Build({ build }: { build: WebhookBuild }) {
-  // Renders a single build.
-  let cssClass = "";
-  if (build.build_finished_at) {
-    const finished = new Date(build.build_finished_at);
-    cssClass = getAgeCssClass(finished);
-  }
-
-  return (
-    <li className={`queue-entry ${cssClass}`}>
-      <div className="queue-entry-body build">
-        <div className="info">
-          <strong>
-            {build.repository.name}
-          </strong>
-          {build.ref}
-        </div>
-        <div className="name">
-          {build.build_name}
-        </div>
-        <div className={`status-info status-${build.build_status}`}>
-          <StatusIcon status={build.build_status} />
+        <div className={`status-info status-${pipeline.status}`}>
+          {pipeline.status}
+          <StatusIcon status={pipeline.status} />
         </div>
       </div>
       <div className="queue-entry-footer">
-        <Duration
-          start={build.build_started_at}
-          end={build.build_finished_at}
-        />
+        <Duration start={pipeline.created_at} end={pipeline.finished_at} />
       </div>
     </li>
   );
@@ -161,27 +122,12 @@ export function getAgeCssClass(date: Date): string {
   return "";
 }
 
-function Main({
-  builds,
-  pipelines
-}: {
-  builds: WebhookBuild[];
-  pipelines: WebhookPipeline[];
-}) {
+function Main({ pipelines }: { pipelines: Pipeline[] }) {
   return (
     <main>
-      <div className="main-box">
-        <h2 className="main-box-heading">Pipelines</h2>
-        <ul className="queue">
-          {pipelines.map((p, idx) => <Pipeline pipeline={p} key={idx} />)}
-        </ul>
-      </div>
-      <div className="main-box">
-        <h2 className="main-box-heading">Builds</h2>
-        <ul className="queue">
-          {builds.map((b, idx) => <Build build={b} key={idx} />)}
-        </ul>
-      </div>
+      <ul className="queue">
+        {pipelines.map((p, idx) => <Pipeline pipeline={p} key={idx} />)}
+      </ul>
     </main>
   );
 }
@@ -189,35 +135,19 @@ function Main({
 export function index(req: express.Request, res: express.Response) {
   const state = req.app.locals.state as State;
 
-  const pipelines = state.pipelines
+  const pipelines = Array.from(state.pipelines.values())
     .sort((a, b) => {
-      const isSmaller =
-        new Date(a.object_attributes.created_at) <
-        new Date(b.object_attributes.created_at);
+      const isSmaller = new Date(a.created_at) < new Date(b.created_at);
       return isSmaller ? 1 : -1;
     })
     .slice(0, 30);
 
-  const builds = state.builds
-    .sort((a, b) => {
-      const isSmaller =
-        new Date(a.build_started_at) < new Date(b.build_started_at);
-      return isSmaller ? 1 : -1;
-    })
-    .filter(b => {
-      const ignoreStates = ["skipped", "created"];
-      return ignoreStates.indexOf(b.build_status) === -1;
-    })
-    .slice(0, 30);
-
-  const html = renderToStaticMarkup(
-    <Main builds={builds} pipelines={pipelines} />
-  );
+  const html = renderToStaticMarkup(<Main pipelines={pipelines} />);
 
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="10000000">
     <title>GitLab CI Status</title>
     <link rel="stylesheet" href="/main.css" />
     <body>
@@ -233,19 +163,19 @@ export function index(req: express.Request, res: express.Response) {
 export function stats(req: express.Request, res: express.Response) {
   const state = req.app.locals.state as State;
 
-  const pipelineCount = state.pipelines.length;
-  const buildCount = state.builds.length;
-  const successfulPipelineCount = state.pipelines.filter(
-    p => p.object_attributes.status === "success"
+  const buildCount = state.builds.size;
+  const pipelineCount = state.pipelines.size;
+  const successfulPipelineCount = Array.from(state.pipelines.values()).filter(
+    p => p.status === "success"
   ).length;
-  const successfulBuildCount = state.builds.filter(
-    b => b.build_status === "success"
+  const successfulBuildCount = Array.from(state.builds.values()).filter(
+    b => b.status === "success"
   ).length;
 
   const averageBuildRuntime = d3.mean(
-    state.builds.map(b => {
-      if (b.build_started_at && b.build_finished_at) {
-        return differenceInSeconds(b.build_finished_at, b.build_started_at);
+    Array.from(state.builds.values()).map(b => {
+      if (b.started_at && b.finished_at) {
+        return differenceInSeconds(b.finished_at, b.started_at);
       } else {
         return NaN;
       }

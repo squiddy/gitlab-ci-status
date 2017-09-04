@@ -169,7 +169,7 @@ export function index(req: express.Request, res: express.Response) {
   res.send(`
     <!doctype html>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="10000000">
+    <meta http-equiv="refresh" content="10">
     <title>GitLab CI Status</title>
     <link rel="stylesheet" href="/main.css" />
     <body>

@@ -30,10 +30,10 @@ const icons = {
   pending: includeSvg("pending")
 };
 
-function StatusIcon({ status }: { status: Status }) {
+function StatusIcon({ status, title }: { status: Status, title?: string }) {
   // Renders a visual icon for the build/pipeline status.
   const data = icons[status] as string;
-  return <span dangerouslySetInnerHTML={{ __html: data }} />;
+  return <span title={title} dangerouslySetInnerHTML={{ __html: data }} />;
 }
 
 function AvatarImage({ obj }: { obj?: Avatar }) {
@@ -86,7 +86,7 @@ function PipelineGraph({ builds }: { builds: Build[] }) {
     <ul className="pipeline-graph">
       {builds.map(b =>
         <li>
-          {b && <StatusIcon status={b.status} />}
+          {b && <StatusIcon title={b.stage} status={b.status} />}
         </li>
       )}
     </ul>

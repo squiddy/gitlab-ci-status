@@ -7,7 +7,7 @@
   "author": "Reiner Gerecke",
   "license": "MIT",
   "private": true,
-  "workspaces": ["server"],
+  "workspaces": ["server", "client"],
   "scripts": {
     "start": "node index.js",
     "start:live": "nodemon --watch server --exec node --inspect -- ./index.js"

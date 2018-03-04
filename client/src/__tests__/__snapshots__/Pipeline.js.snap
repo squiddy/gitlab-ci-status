@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PipelineGraph renders correctly 1`] = `
+<ul
+  className="pipeline-graph"
+>
+  <li>
+    <img
+      alt=""
+      src="success.svg"
+      title="check"
+    />
+  </li>
+  <li>
+    <img
+      alt=""
+      src="running.svg"
+      title="test"
+    />
+  </li>
+</ul>
+`;

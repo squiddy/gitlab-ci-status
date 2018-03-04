@@ -1,25 +1,41 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+
+import "./App.css";
+import { Pipeline } from "./Pipeline";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { pipelines: [] };
+  }
+
+  update() {
+    fetch("/initial")
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ pipelines: data });
+      });
+  }
+
   componentDidMount() {
-    fetch('/state').then(res => {
-      console.log(res);
-    })
+    this.timer = setInterval(this.update.bind(this), 3000);
+    this.update();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <main>
+        <div className="queue">
+          {this.state.pipelines.map((p, idx) => {
+            return <Pipeline pipeline={p} key={idx} />;
+          })}
+        </div>
+      </main>
     );
   }
 }

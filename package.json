@@ -10,6 +10,6 @@
   "workspaces": ["server"],
   "scripts": {
     "start": "node index.js",
-    "start:live": "nodemon -e js --exec node --inspect -- ./index.js"
+    "start:live": "nodemon --watch server --exec node --inspect -- ./index.js"
   }
 }

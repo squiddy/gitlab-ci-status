@@ -6,54 +6,10 @@
   "repository": {},
   "author": "Reiner Gerecke",
   "license": "MIT",
+  "private": true,
+  "workspaces": ["server"],
   "scripts": {
     "start": "node index.js",
-    "start:live": "yarn run build:live",
-    "build": "tsc",
-    "build:live": "nodemon -e ts,tsx --exec ./node_modules/.bin/ts-node --inspect -- ./index.ts",
-    "test:watch": "jest --watch --verbose",
-    "test": "jest --verbose",
-    "check-code:lint": "tslint -c tslint.json '{src,__tests__}/**/*.ts'",
-    "check-code:prettier": "prettier -l --parser typescript '{src,__tests__}/**/*.ts'",
-    "check-code": "yarn check-code:lint && yarn check-code:prettier"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
-  },
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "d3-array": "^1.2.0",
-    "date-fns": "^1.28.5",
-    "express": "^4.15.3",
-    "morgan": "^1.8.2",
-    "react": "^16.0.0-beta.5",
-    "react-dom": "^16.0.0-beta.5"
-  },
-  "devDependencies": {
-    "@types/body-parser": "^1.16.4",
-    "@types/d3-array": "^1.2.0",
-    "@types/express": "^4.0.36",
-    "@types/jest": "^20.0.4",
-    "@types/morgan": "^1.7.32",
-    "@types/node": "^8.0.14",
-    "@types/react": "^16.0.5",
-    "@types/react-dom": "^15.5.4",
-    "@types/supertest": "^2.0.2",
-    "jest": "^20.0.4",
-    "nodemon": "^1.11.0",
-    "prettier": "^1.5.3",
-    "supertest": "^3.0.0",
-    "ts-jest": "^20.0.7",
-    "ts-node": "^3.2.1",
-    "tslint": "^5.5.0",
-    "typescript": "^2.4.2"
+    "start:live": "nodemon -e js --exec node --inspect -- ./index.js"
   }
 }

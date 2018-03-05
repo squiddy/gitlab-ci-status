@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "start:live": "nodemon -e js --exec node --inspect -- ./index.js",
+    "test:watch": "jest --watch --verbose",
+    "test": "jest --verbose",
+    "check-code:prettier": "prettier -l '{src,__tests__}/**/*.js'",
+    "check-code": "yarn check-code:prettier"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "testRegex": "/__tests__/.*\\.js$"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "nodemon": "^1.11.0",
+    "prettier": "^1.5.3",
+    "supertest": "^3.0.0"
+  }
+}

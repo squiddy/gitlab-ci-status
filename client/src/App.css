@@ -1,0 +1,112 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.queue {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.queue-entry {
+  background: #f9f9f9;
+  box-shadow: 3px 3px 0 0 #e6e6e6;
+  margin: 0.5em auto;
+  max-width: 1000px;
+}
+
+.queue-entry-body {
+  padding: 1em;
+  padding-bottom: 0.5em;
+}
+
+.queue-entry-footer {
+  border-top: 1px solid #e6e6e6;
+  padding: 0.3em 1em 0.3em 1em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.queue-entry-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pipeline .avatars {
+  margin-right: 10px;
+}
+
+.status-failed {
+  color: #d22852;
+}
+
+.status-success {
+  color: #31af64;
+}
+
+.status-canceled,
+.status-skipped {
+  color: #5c5c5c;
+}
+
+.status-pending {
+  color: #e75e40;
+}
+
+.status-running {
+  color: #2d9fd8;
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.status-info img {
+  transform: scale(2);
+  margin-left: 20px;
+}
+
+.avatar {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.avatar-empty {
+  border: 0;
+  stroke: #fff;
+  fill: #ddd;
+  stroke-width: 0.001px;
+}
+
+.pipeline-graph {
+  display: flex;
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+.pipeline-graph li {
+  margin-right: 2px;
+}
+
+.info {
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+.info strong {
+  display: block;
+}

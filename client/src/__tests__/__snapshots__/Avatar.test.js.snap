@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar renders correctly with absolute image URL 1`] = `
+<img
+  alt=""
+  className="avatar"
+  src="http://example.com/kitten.jpg"
+/>
+`;
+
+exports[`Avatar renders correctly with relative image URL 1`] = `
+<img
+  alt=""
+  className="avatar"
+  src="http://gitlab.bof.mm.local/kitten.jpg"
+/>
+`;
+
+exports[`Avatar renders empty when no data is available 1`] = `
+<svg
+  className="avatar avatar-empty"
+  height="14"
+  viewBox="0 0 14 14"
+  width="14"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle
+    cx="7"
+    cy="7"
+    r="6"
+  />
+</svg>
+`;

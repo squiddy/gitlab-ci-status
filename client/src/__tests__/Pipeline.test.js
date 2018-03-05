@@ -7,11 +7,17 @@ it("PipelineGraph renders correctly", () => {
   const builds = [
     {
       stage: "check",
-      status: "success"
+      status: "success",
+      _raw: {
+        name: "check_code"
+      }
     },
     {
       stage: "test",
-      status: "running"
+      status: "running",
+      _raw: {
+        name: "test"
+      }
     }
   ];
   const tree = renderer.create(<PipelineGraph builds={builds} />).toJSON();

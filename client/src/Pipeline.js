@@ -32,7 +32,7 @@ export function PipelineGraph({ builds }) {
     <ul className="pipeline-graph">
       {builds.filter(b => b).map((b, idx) => (
         <li key={idx}>
-          <StatusIcon title={b.stage} status={b.status} />
+          <StatusIcon title={b._raw.name} status={b.status} />
         </li>
       ))}
     </ul>

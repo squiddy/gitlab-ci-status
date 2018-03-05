@@ -29,7 +29,7 @@ body {
   border-top: 1px solid #e6e6e6;
   padding: 0.3em 1em 0.3em 1em;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 }
 
 .queue-entry-body {
@@ -109,4 +109,9 @@ body {
 
 .info strong {
   display: block;
+}
+
+.pipeline-duration {
+  color: #888;
+  font-size: 0.8rem;
 }

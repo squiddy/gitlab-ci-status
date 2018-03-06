@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(this.update.bind(this), 3000);
+    this.timer = setInterval(this.update.bind(this), 10000);
     this.update();
   }
 

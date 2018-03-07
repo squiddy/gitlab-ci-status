@@ -4,14 +4,20 @@ exports[`PipelineGraph renders correctly 1`] = `
 <ul
   className="pipeline-graph"
 >
-  <li>
+  <li
+    className="pipeline-graph-job"
+    onClick={[Function]}
+  >
     <img
       alt=""
       src="success.svg"
       title="check_code"
     />
   </li>
-  <li>
+  <li
+    className="pipeline-graph-job"
+    onClick={[Function]}
+  >
     <img
       alt=""
       src="running.svg"

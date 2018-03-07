@@ -23,6 +23,7 @@ body {
 .queue-entry-body {
   padding: 1em;
   padding-bottom: 0.5em;
+  cursor: pointer;
 }
 
 .queue-entry-footer {
@@ -98,8 +99,9 @@ body {
   margin: 0;
 }
 
-.pipeline-graph li {
+.pipeline-graph-job {
   margin-right: 2px;
+  cursor: pointer;
 }
 
 .info {

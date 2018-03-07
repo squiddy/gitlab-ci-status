@@ -26,9 +26,17 @@ export function Pipeline({ pipeline }) {
     pipeline.status
   );
 
+  const navigateToGitLab = () => {
+    const url = `http://gitlab.bof.mm.local/${
+      pipeline._raw.project.path_with_namespace
+    }/pipelines/${pipeline.id}`;
+    window.open(url, "_blank");
+    window.focus();
+  };
+
   return (
     <div className={`queue-entry`}>
-      <div className="queue-entry-body">
+      <div className="queue-entry-body" onClick={navigateToGitLab}>
         <div className="avatars">
           <Avatar obj={pipeline.user} />
           <Avatar obj={pipeline.project} />
@@ -44,24 +52,33 @@ export function Pipeline({ pipeline }) {
       </div>
       <div className="queue-entry-footer">
         <div className="pipeline-duration">
-          {isFinished ? "took" : "running for"}
-          {' '}
-          {Math.floor(duration / 60)}m {duration % 60}s
+          {isFinished ? "took" : "running for"} {Math.floor(duration / 60)}m{" "}
+          {duration % 60}s
         </div>
-        <PipelineGraph builds={pipeline.builds} />
+        <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
       </div>
     </div>
   );
 }
 
-export function PipelineGraph({ builds }) {
+export function PipelineGraph({ pipeline, builds }) {
   return (
     <ul className="pipeline-graph">
-      {builds.filter(b => b).map((b, idx) => (
-        <li key={idx}>
-          <StatusIcon title={b._raw.name} status={b.status} />
-        </li>
-      ))}
+      {builds.filter(b => b).map((b, idx) => {
+        const navigateToGitLab = () => {
+          const url = `http://gitlab.bof.mm.local/${
+            pipeline._raw.project.path_with_namespace
+          }/-/jobs/${b.id}`;
+          window.open(url, "_blank");
+          window.focus();
+        };
+
+        return (
+          <li key={idx} className="pipeline-graph-job" onClick={navigateToGitLab}>
+            <StatusIcon title={b._raw.name} status={b.status} />
+          </li>
+        );
+      })}
     </ul>
   );
 }

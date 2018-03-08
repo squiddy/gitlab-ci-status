@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Avatar({ obj }) {
+export function Avatar({ obj, className = "" }) {
   // Renders the avatar of either a user or project, if available. Falls back to
   // a svg placeholder otherwise.
   const imageBaseUrl = "http://gitlab.bof.mm.local";
@@ -12,7 +12,7 @@ export function Avatar({ obj }) {
     const finalUrl = isAbsolute
       ? obj.avatar_url
       : imageBaseUrl + obj.avatar_url;
-    return <img className="avatar" src={finalUrl} alt="" />;
+    return <img className={`avatar ${className}`} src={finalUrl} alt="" />;
   } else {
     return (
       <svg
@@ -20,7 +20,7 @@ export function Avatar({ obj }) {
         width="14"
         height="14"
         viewBox="0 0 14 14"
-        className="avatar avatar-empty"
+        className={`avatar avatar-empty ${className}`}
       >
         <circle cx="7" cy="7" r="6" />
       </svg>

@@ -39,8 +39,9 @@ body {
   justify-content: space-between;
 }
 
-.pipeline .avatars {
+.queue-entry-body .avatars {
   margin-right: 10px;
+  flex-basis: 80px;
 }
 
 .status-failed {
@@ -116,4 +117,10 @@ body {
 .pipeline-duration {
   color: #888;
   font-size: 0.8rem;
+}
+
+.main-repository .avatar-user {
+  transform: scale(0.5);
+  margin-left: -15px;
+  margin-bottom: -15px;
 }

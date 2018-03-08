@@ -34,12 +34,14 @@ export function Pipeline({ pipeline }) {
     window.focus();
   };
 
+  const isMainRepository = pipeline._raw.project.namespace !== pipeline._raw.user.username;
+
   return (
-    <div className={`queue-entry`}>
+    <div className={`queue-entry ${isMainRepository ? "main-repository" : ""}`}>
       <div className="queue-entry-body" onClick={navigateToGitLab}>
         <div className="avatars">
-          <Avatar obj={pipeline.user} />
-          <Avatar obj={pipeline.project} />
+          <Avatar className="avatar-project" obj={pipeline.project} />
+          <Avatar className="avatar-user" obj={pipeline.user} />
         </div>
         <div className="info">
           <strong>{pipeline.project.name}</strong>

@@ -7,7 +7,7 @@ import running from "./images/running.svg";
 import created from "./images/created.svg";
 import pending from "./images/pending.svg";
 
-export function StatusIcon({ status, title }) {
+export function StatusIcon({ status, ...rest }) {
   // Renders a visual icon for the build/pipeline status.
   const url = {
     failed,
@@ -18,5 +18,5 @@ export function StatusIcon({ status, title }) {
     created,
     pending
   }[status];
-  return <img title={title} alt="" src={url} />;
+  return <img alt="" src={url} {...rest} />;
 }

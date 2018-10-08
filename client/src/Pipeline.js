@@ -34,25 +34,32 @@ export function Pipeline({ pipeline }) {
     window.focus();
   };
 
-  const isMainRepository = pipeline._raw.project.namespace !== pipeline._raw.user.username;
+  const isMainRepository =
+    pipeline._raw.project.namespace !== pipeline._raw.user.username;
 
   return (
-    <div className={`queue-entry ${isMainRepository ? "main-repository" : ""}`}>
-      <div className="queue-entry-body" onClick={navigateToGitLab}>
-        <div className="avatars">
-          <Avatar className="avatar-project" obj={pipeline.project} />
-          <Avatar className="avatar-user" obj={pipeline.user} />
+    <div
+      className={`flex flex-col my-8 rounded cursor-pointer ${
+        isMainRepository ? "main-repository" : ""
+      }`}
+    >
+      <div
+        className="flex flex-row justify-between items-center bg-white rounded-t"
+        onClick={navigateToGitLab}
+      >
+        <div className="p-4 flex-initial w-48">
+          <Avatar className="h-16 rounded-full m-1" obj={pipeline.project} />
+          <Avatar className="h-16 rounded-full m-1" obj={pipeline.user} />
         </div>
-        <div className="info">
-          <strong>{pipeline.project.name}</strong>
-          {pipeline.ref}
+        <div className="flex-1 px-6 py-4">
+          <div className="font-bold text-xl mb-2">{pipeline.project.name}</div>
+          <p className="text-grey-darker text-base">{pipeline.ref}</p>
         </div>
-        <div className={`status-info status-${pipeline.status}`}>
-          {pipeline.status}
-          <StatusIcon status={pipeline.status} />
+        <div className="p-4 flex-initial flex items-center">
+          <StatusIcon className="h-12" status={pipeline.status} />
         </div>
       </div>
-      <div className="queue-entry-footer">
+      <div className="flex justify-between items-center bg-indigo-darker rounded-b px-4 py-2 text-grey">
         <div className="pipeline-duration">
           {isFinished ? "took" : "running for"} {Math.floor(duration / 60)}m{" "}
           {duration % 60}s
@@ -65,7 +72,7 @@ export function Pipeline({ pipeline }) {
 
 export function PipelineGraph({ pipeline, builds }) {
   return (
-    <ul className="pipeline-graph">
+    <div className="flex items-center">
       {builds.filter(b => b).map((b, idx) => {
         const navigateToGitLab = () => {
           const url = `http://gitlab.bof.mm.local/${
@@ -76,11 +83,16 @@ export function PipelineGraph({ pipeline, builds }) {
         };
 
         return (
-          <li key={idx} className="pipeline-graph-job" onClick={navigateToGitLab}>
-            <StatusIcon title={b._raw.name} status={b.status} />
-          </li>
+          <StatusIcon
+            key={idx}
+            className="mx-1"
+            style={{ height: "1.3rem" }}
+            onClick={navigateToGitLab}
+            title={b._raw.name}
+            status={b.status}
+          />
         );
       })}
-    </ul>
+    </div>
   );
 }

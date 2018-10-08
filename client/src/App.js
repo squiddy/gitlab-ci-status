@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import "./App.css";
 import { Pipeline } from "./Pipeline";
 
 class App extends Component {
@@ -29,12 +28,10 @@ class App extends Component {
 
   render() {
     return (
-      <main>
-        <div className="queue">
-          {this.state.pipelines.map((p, idx) => {
-            return <Pipeline pipeline={p} key={idx} />;
-          })}
-        </div>
+      <main className="container mx-auto">
+        {this.state.pipelines.map((p, idx) => {
+          return <Pipeline pipeline={p} key={idx} />;
+        })}
       </main>
     );
   }

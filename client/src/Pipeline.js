@@ -9,13 +9,13 @@ export function getTotalBuildRunTimeMs(builds) {
       return sum;
     }
 
-    const start = new Date(b.started_at.slice(0, -4));
+    const start = new Date(b.started_at.replace(" UTC", "Z"));
 
     if (!b.finished_at) {
       return sum + (new Date() - start) / 1000;
     }
 
-    const finish = new Date(b.finished_at.slice(0, -4));
+    const finish = new Date(b.finished_at.replace(" UTC", "Z"));
     return sum + (finish - start) / 1000;
   }, 0);
 }

@@ -20,6 +20,48 @@ export function getTotalBuildRunTimeMs(builds) {
   }, 0);
 }
 
+class Duration extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: Math.floor(props.value), lastUpdate: null };
+    this.counter = null;
+  }
+
+  componentDidMount() {
+    if (this.props.ticking) {
+      this.setState(state => ({
+        lastUpdate: Date.now()
+      }));
+      this.counter = setInterval(this.tick.bind(this), 1000);
+    }
+  }
+
+  tick() {
+    this.setState(state => {
+      const now = Date.now();
+      const diff = Math.floor((Date.now() - state.lastUpdate) / 1000);
+      return {
+        value: state.value + diff,
+        lastUpdate: now
+      };
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.counter) {
+      clearInterval(this.counter);
+    }
+  }
+
+  render() {
+    return (
+      <>
+        {Math.floor(this.state.value / 60)}m {this.state.value % 60}s
+      </>
+    );
+  }
+}
+
 export function Pipeline({ pipeline }) {
   const duration = getTotalBuildRunTimeMs(pipeline.builds);
   const isFinished = !["created", "pending", "running"].includes(
@@ -61,8 +103,8 @@ export function Pipeline({ pipeline }) {
       </div>
       <div className="flex justify-between items-center bg-indigo-darker rounded-b px-4 py-2 text-grey">
         <div className="pipeline-duration">
-          {isFinished ? "took" : "running for"} {Math.floor(duration / 60)}m{" "}
-          {duration % 60}s
+          {isFinished ? "took" : "running for"}{" "}
+          <Duration value={duration} ticking={!isFinished} />
         </div>
         <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
       </div>

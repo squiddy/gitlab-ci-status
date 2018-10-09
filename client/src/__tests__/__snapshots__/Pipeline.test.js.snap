@@ -1,28 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PipelineGraph renders correctly 1`] = `
-<ul
-  className="pipeline-graph"
+<div
+  className="flex items-center"
 >
-  <li
-    className="pipeline-graph-job"
+  <img
+    alt=""
+    className="mx-1"
     onClick={[Function]}
-  >
-    <img
-      alt=""
-      src="success.svg"
-      title="check_code"
-    />
-  </li>
-  <li
-    className="pipeline-graph-job"
+    src="success.svg"
+    style={
+      Object {
+        "height": "1.3rem",
+      }
+    }
+    title="check_code"
+  />
+  <img
+    alt=""
+    className="mx-1"
     onClick={[Function]}
-  >
-    <img
-      alt=""
-      src="running.svg"
-      title="test"
-    />
-  </li>
-</ul>
+    src="running.svg"
+    style={
+      Object {
+        "height": "1.3rem",
+      }
+    }
+    title="test"
+  />
+</div>
 `;

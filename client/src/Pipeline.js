@@ -62,54 +62,59 @@ class Duration extends React.Component {
   }
 }
 
-export function Pipeline({ pipeline }) {
-  const duration = getTotalBuildRunTimeMs(pipeline.builds);
-  const isFinished = !["created", "pending", "running"].includes(
-    pipeline.status
-  );
+export class Pipeline extends React.Component {
+  render() {
+    const { pipeline } = this.props;
+    const duration = getTotalBuildRunTimeMs(pipeline.builds);
+    const isFinished = !["created", "pending", "running"].includes(
+      pipeline.status
+    );
 
-  const navigateToGitLab = () => {
-    const url = `http://gitlab.bof.mm.local/${
-      pipeline._raw.project.path_with_namespace
-    }/pipelines/${pipeline.id}`;
-    window.open(url, "_blank");
-    window.focus();
-  };
+    const navigateToGitLab = () => {
+      const url = `http://gitlab.bof.mm.local/${
+        pipeline._raw.project.path_with_namespace
+      }/pipelines/${pipeline.id}`;
+      window.open(url, "_blank");
+      window.focus();
+    };
 
-  const isMainRepository =
-    pipeline._raw.project.namespace !== pipeline._raw.user.username;
+    const isMainRepository =
+      pipeline._raw.project.namespace !== pipeline._raw.user.username;
 
-  return (
-    <div
-      className={`flex flex-col my-8 rounded cursor-pointer ${
-        isMainRepository ? "main-repository" : ""
-      }`}
-    >
+    return (
       <div
-        className="flex flex-row justify-between items-center bg-white rounded-t"
-        onClick={navigateToGitLab}
+        className={`flex flex-col my-8 rounded cursor-pointer ${
+          isMainRepository ? "main-repository" : ""
+        }`}
       >
-        <div className="p-4 flex-initial w-48">
-          <Avatar className="h-16 rounded-full m-1" obj={pipeline.project} />
-          <Avatar className="h-16 rounded-full m-1" obj={pipeline.user} />
+        <div
+          className="flex flex-row justify-between items-center bg-white rounded-t"
+          onClick={navigateToGitLab}
+        >
+          <div className="p-4 flex-initial w-48">
+            <Avatar className="h-16 rounded-full m-1" obj={pipeline.project} />
+            <Avatar className="h-16 rounded-full m-1" obj={pipeline.user} />
+          </div>
+          <div className="flex-1 px-6 py-4">
+            <div className="font-bold text-xl mb-2">
+              {pipeline.project.name}
+            </div>
+            <p className="text-grey-darker text-base">{pipeline.ref}</p>
+          </div>
+          <div className="p-4 flex-initial flex items-center">
+            <StatusIcon className="h-12" status={pipeline.status} />
+          </div>
         </div>
-        <div className="flex-1 px-6 py-4">
-          <div className="font-bold text-xl mb-2">{pipeline.project.name}</div>
-          <p className="text-grey-darker text-base">{pipeline.ref}</p>
-        </div>
-        <div className="p-4 flex-initial flex items-center">
-          <StatusIcon className="h-12" status={pipeline.status} />
+        <div className="flex justify-between items-center bg-indigo-darker rounded-b px-4 py-2 text-grey">
+          <div className="pipeline-duration">
+            {isFinished ? "took" : "running for"}{" "}
+            <Duration value={duration} ticking={!isFinished} />
+          </div>
+          <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
         </div>
       </div>
-      <div className="flex justify-between items-center bg-indigo-darker rounded-b px-4 py-2 text-grey">
-        <div className="pipeline-duration">
-          {isFinished ? "took" : "running for"}{" "}
-          <Duration value={duration} ticking={!isFinished} />
-        </div>
-        <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export function PipelineGraph({ pipeline, builds }) {

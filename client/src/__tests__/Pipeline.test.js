@@ -6,6 +6,7 @@ import { PipelineGraph } from "../Pipeline";
 it("PipelineGraph renders correctly", () => {
   const builds = [
     {
+      id: 1,
       stage: "check",
       status: "success",
       _raw: {
@@ -13,6 +14,7 @@ it("PipelineGraph renders correctly", () => {
       }
     },
     {
+      id: 2,
       stage: "test",
       status: "running",
       _raw: {

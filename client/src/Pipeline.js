@@ -115,7 +115,7 @@ export function Pipeline({ pipeline }) {
 export function PipelineGraph({ pipeline, builds }) {
   return (
     <div className="flex items-center">
-      {builds.filter(b => b).map((b, idx) => {
+      {builds.filter(b => b).map(b => {
         const navigateToGitLab = () => {
           const url = `http://gitlab.bof.mm.local/${
             pipeline._raw.project.path_with_namespace
@@ -126,7 +126,7 @@ export function PipelineGraph({ pipeline, builds }) {
 
         return (
           <StatusIcon
-            key={idx}
+            key={b.id}
             className="mx-1"
             style={{ height: "1.3rem" }}
             onClick={navigateToGitLab}

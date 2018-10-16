@@ -29,8 +29,8 @@ class App extends Component {
   render() {
     return (
       <main className="container mx-auto">
-        {this.state.pipelines.map((p, idx) => {
-          return <Pipeline pipeline={p} key={idx} />;
+        {this.state.pipelines.map(p => {
+          return <Pipeline pipeline={p} key={p.id} />;
         })}
       </main>
     );

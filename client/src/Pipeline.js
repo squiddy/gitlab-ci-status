@@ -63,6 +63,17 @@ class Duration extends React.Component {
 }
 
 export class Pipeline extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { showDetails: false };
+    this.toggleDetails = this.toggleDetails.bind(this);
+  }
+
+  toggleDetails() {
+    this.setState(state => ({ showDetails: !state.showDetails }));
+  }
+
   render() {
     const { pipeline } = this.props;
     const duration = getTotalBuildRunTimeMs(pipeline.builds);
@@ -105,12 +116,22 @@ export class Pipeline extends React.Component {
             <StatusIcon className="h-12" status={pipeline.status} />
           </div>
         </div>
-        <div className="flex justify-between items-center bg-indigo-darker rounded-b px-4 py-2 text-grey">
-          <div className="pipeline-duration">
-            {isFinished ? "took" : "running for"}{" "}
-            <Duration value={duration} ticking={!isFinished} />
+        <div
+          className={"flex flex-col bg-indigo-darker rounded-b text-grey"}
+          onClick={this.toggleDetails}
+        >
+          {this.state.showDetails ? (
+            <div className="border-b border-dotted border-indigo-darkest px-4 py-2">
+              Details go here
+            </div>
+          ) : null}
+          <div className="flex justify-between items-center w-full px-4 py-2">
+            <div className="pipeline-duration">
+              {isFinished ? "took" : "running for"}{" "}
+              <Duration value={duration} ticking={!isFinished} />
+            </div>
+            <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
           </div>
-          <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
         </div>
       </div>
     );

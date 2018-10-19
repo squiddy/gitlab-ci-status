@@ -66,11 +66,19 @@ class Duration extends React.Component {
   }
 }
 
+function isPipelineFinished(status) {
+  return !["created", "pending", "running"].includes(status);
+}
+
 export class Pipeline extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { showDetails: false };
+    this.state = {
+      showDetails:
+        !isPipelineFinished(props.pipeline.status) ||
+        props.pipeline.status === "failed"
+    };
     this.toggleDetails = this.toggleDetails.bind(this);
   }
 
@@ -81,9 +89,6 @@ export class Pipeline extends React.Component {
   render() {
     const { pipeline } = this.props;
     const duration = getTotalBuildRunTimeMs(pipeline.builds);
-    const isFinished = !["created", "pending", "running"].includes(
-      pipeline.status
-    );
 
     const navigateToGitLab = () => {
       const url = `http://gitlab.bof.mm.local/${
@@ -95,6 +100,8 @@ export class Pipeline extends React.Component {
 
     const isMainRepository =
       pipeline._raw.project.namespace !== pipeline._raw.user.username;
+
+    const isFinished = isPipelineFinished(pipeline.status);
 
     return (
       <div
@@ -124,20 +131,17 @@ export class Pipeline extends React.Component {
           className={"flex flex-col bg-indigo-darker rounded-b text-grey"}
           onClick={this.toggleDetails}
         >
-          <div className="flex justify-between items-center w-full px-4 py-2">
-            <div className="pipeline-duration">
-              {isFinished ? "took" : "running for"}{" "}
-              <Duration value={duration} ticking={!isFinished} />
-            </div>
-            {!this.state.showDetails && (
-              <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
-            )}
-          </div>
           {this.state.showDetails && (
-            <div className="border-t border-dotted border-indigo-darkest px-4 py-4">
+            <div className="border-b border-dotted border-indigo-darkest px-4 py-4">
               <PipelineStuff pipeline={pipeline} />
             </div>
           )}
+          <div className="flex justify-between items-center w-full px-4 py-2">
+            <div className="text-xs">
+              {isFinished ? "took" : "running for"}{" "}
+              <Duration value={duration} ticking={!isFinished} />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -171,7 +175,7 @@ function PipelineStuff({ pipeline }) {
   const orderedStages = estimateStageOrder(stages);
 
   return (
-    <div className="flex">
+    <div className="flex -mb-2">
       {orderedStages.map(([stageName, builds]) => {
         return (
           <div className="flex flex-col mr-8 justify-center" key={stageName}>

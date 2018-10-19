@@ -4,29 +4,29 @@ exports[`PipelineGraph renders correctly 1`] = `
 <div
   className="flex items-center"
 >
-  <img
-    alt=""
+  <svg
     className="mx-1"
     onClick={[Function]}
-    src="success.svg"
     style={
       Object {
         "height": "1.3rem",
       }
     }
     title="check_code"
-  />
-  <img
-    alt=""
+  >
+    success.svg
+  </svg>
+  <svg
     className="mx-1"
     onClick={[Function]}
-    src="running.svg"
     style={
       Object {
         "height": "1.3rem",
       }
     }
     title="test"
-  />
+  >
+    running.svg
+  </svg>
 </div>
 `;

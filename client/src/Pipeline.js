@@ -124,7 +124,7 @@ export class Pipeline extends React.Component {
             <p className="text-grey-darker text-base">{pipeline.ref}</p>
           </div>
           <div className="p-4 flex-initial flex items-center">
-            <StatusIcon className="h-12" status={pipeline.status} />
+            <StatusIcon className="h-12 w-12" status={pipeline.status} />
           </div>
         </div>
         <div

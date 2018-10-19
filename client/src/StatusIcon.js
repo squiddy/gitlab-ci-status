@@ -1,23 +1,23 @@
 import React from "react";
 
-import failed from "./images/failed.svg";
-import success from "./images/success.svg";
-import skipped from "./images/skipped.svg";
-import running from "./images/running.svg";
-import created from "./images/created.svg";
-import pending from "./images/pending.svg";
+import { ReactComponent as Failed } from "./images/failed.svg";
+import { ReactComponent as Success } from "./images/success.svg";
+import { ReactComponent as Skipped } from "./images/skipped.svg";
+import { ReactComponent as Running } from "./images/running.svg";
+import { ReactComponent as Created } from "./images/created.svg";
+import { ReactComponent as Pending } from "./images/pending.svg";
 
 export function StatusIcon({ status, ...rest }) {
   // Renders a visual icon for the build/pipeline status.
-  const url = {
-    failed,
-    success,
-    skipped,
-    canceled: skipped,
-    running,
-    created,
-    pending,
-    manual: skipped
+  const Component = {
+    failed: Failed,
+    success: Success,
+    skipped: Skipped,
+    canceled: Skipped,
+    running: Running,
+    created: Created,
+    pending: Pending,
+    manual: Skipped
   }[status];
-  return <img alt="" src={url} {...rest} />;
+  return <Component {...rest} />;
 }

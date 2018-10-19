@@ -16,7 +16,8 @@ export function StatusIcon({ status, ...rest }) {
     canceled: skipped,
     running,
     created,
-    pending
+    pending,
+    manual: skipped
   }[status];
   return <img alt="" src={url} {...rest} />;
 }

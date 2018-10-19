@@ -2,31 +2,47 @@
 
 exports[`PipelineGraph renders correctly 1`] = `
 <div
-  className="flex items-center"
+  className="flex -mb-2"
 >
-  <svg
-    className="mx-1"
-    onClick={[Function]}
-    style={
-      Object {
-        "height": "1.3rem",
-      }
-    }
-    title="check_code"
+  <div
+    className="flex flex-col mr-8 justify-center"
   >
-    success.svg
-  </svg>
-  <svg
-    className="mx-1"
-    onClick={[Function]}
-    style={
-      Object {
-        "height": "1.3rem",
-      }
-    }
-    title="test"
+    <div
+      className="flex"
+      onClick={[Function]}
+    >
+      <svg
+        className="mb-2 mr-1"
+        title="check_code"
+      >
+        success.svg
+      </svg>
+      <span
+        className="text-xs text-gray-lighter"
+      >
+        check_code
+      </span>
+    </div>
+  </div>
+  <div
+    className="flex flex-col mr-8 justify-center"
   >
-    running.svg
-  </svg>
+    <div
+      className="flex"
+      onClick={[Function]}
+    >
+      <svg
+        className="mb-2 mr-1"
+        title="test"
+      >
+        running.svg
+      </svg>
+      <span
+        className="text-xs text-gray-lighter"
+      >
+        test
+      </span>
+    </div>
+  </div>
 </div>
 `;

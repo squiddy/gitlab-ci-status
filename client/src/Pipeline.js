@@ -133,7 +133,7 @@ export class Pipeline extends React.Component {
         >
           {this.state.showDetails && (
             <div className="border-b border-dotted border-indigo-darkest px-4 py-4">
-              <PipelineStuff pipeline={pipeline} />
+              <PipelineGraph pipeline={pipeline} />
             </div>
           )}
           <div className="flex justify-between items-center w-full px-4 py-2">
@@ -162,7 +162,7 @@ function estimateStageOrder(stageBuilds) {
   });
 }
 
-function PipelineStuff({ pipeline }) {
+export function PipelineGraph({ pipeline }) {
   const stages = {};
   pipeline.builds.forEach(build => {
     if (!stages[build.stage]) {
@@ -180,45 +180,28 @@ function PipelineStuff({ pipeline }) {
         return (
           <div className="flex flex-col mr-8 justify-center" key={stageName}>
             {builds.map(b => {
+              const navigateToGitLab = () => {
+                const url = `http://gitlab.bof.mm.local/${
+                  pipeline._raw.project.path_with_namespace
+                }/-/jobs/${b.id}`;
+                window.open(url, "_blank");
+                window.focus();
+              };
+
               return (
-                <div className="flex" key={b.id}>
+                <div className="flex" key={b.id} onClick={navigateToGitLab}>
                   <StatusIcon
                     className="mb-2 mr-1"
                     title={b._raw.name}
                     status={b.status}
                   />
-                  <span className="text-xs text-gray-lighter">{b._raw.name}</span>
+                  <span className="text-xs text-gray-lighter">
+                    {b._raw.name}
+                  </span>
                 </div>
               );
             })}
           </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export function PipelineGraph({ pipeline, builds }) {
-  return (
-    <div className="flex items-center">
-      {builds.filter(b => b).map(b => {
-        const navigateToGitLab = () => {
-          const url = `http://gitlab.bof.mm.local/${
-            pipeline._raw.project.path_with_namespace
-          }/-/jobs/${b.id}`;
-          window.open(url, "_blank");
-          window.focus();
-        };
-
-        return (
-          <StatusIcon
-            key={b.id}
-            className="mx-1"
-            style={{ height: "1.3rem" }}
-            onClick={navigateToGitLab}
-            title={b._raw.name}
-            status={b.status}
-          />
         );
       })}
     </div>

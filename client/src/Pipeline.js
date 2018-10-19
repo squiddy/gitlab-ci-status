@@ -164,7 +164,7 @@ function estimateStageOrder(stageBuilds) {
 
 function PipelineStuff({ pipeline }) {
   const stages = {};
-  pipeline._raw.builds.forEach(build => {
+  pipeline.builds.forEach(build => {
     if (!stages[build.stage]) {
       stages[build.stage] = [];
     }
@@ -184,10 +184,10 @@ function PipelineStuff({ pipeline }) {
                 <div className="flex" key={b.id}>
                   <StatusIcon
                     className="mb-2 mr-1"
-                    title={b.name}
+                    title={b._raw.name}
                     status={b.status}
                   />
-                  <span className="text-xs text-gray-lighter">{b.name}</span>
+                  <span className="text-xs text-gray-lighter">{b._raw.name}</span>
                 </div>
               );
             })}

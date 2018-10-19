@@ -4,6 +4,7 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const compression = require("compression");
 
 const { State } = require("./state");
 const { persistState, restoreState } = require("./utils");
@@ -34,6 +35,7 @@ function createServer(options) {
   app.use(
     morgan(":date - :remote-addr - ':method :url' :status :response-time ms")
   );
+  app.use(compression());
 
   const publicDir = path.join(__dirname, "../../client/build");
   app.use(express.static(publicDir));

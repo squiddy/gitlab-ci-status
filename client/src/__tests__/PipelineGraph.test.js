@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { PipelineGraph } from "../Pipeline";
+import { PipelineGraph } from "../PipelineGraph";
 
 it("PipelineGraph renders correctly", () => {
   const pipeline = {

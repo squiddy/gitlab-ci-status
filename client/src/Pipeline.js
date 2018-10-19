@@ -2,10 +2,9 @@ import React from "react";
 
 import { Avatar } from "./Avatar";
 import { StatusIcon } from "./StatusIcon";
-
-function parseDate(value) {
-  return new Date(value.replace(" UTC", "Z"));
-}
+import { Duration } from "./Duration";
+import { parseDate } from "./utils";
+import { PipelineGraph } from "./PipelineGraph";
 
 export function getTotalBuildRunTimeMs(builds) {
   return builds.reduce((sum, b) => {
@@ -22,48 +21,6 @@ export function getTotalBuildRunTimeMs(builds) {
     const finish = parseDate(b.finished_at);
     return sum + (finish - start) / 1000;
   }, 0);
-}
-
-class Duration extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: Math.floor(props.value), lastUpdate: null };
-    this.counter = null;
-  }
-
-  componentDidMount() {
-    if (this.props.ticking) {
-      this.setState(state => ({
-        lastUpdate: Date.now()
-      }));
-      this.counter = setInterval(this.tick.bind(this), 1000);
-    }
-  }
-
-  tick() {
-    this.setState(state => {
-      const now = Date.now();
-      const diff = Math.floor((Date.now() - state.lastUpdate) / 1000);
-      return {
-        value: state.value + diff,
-        lastUpdate: now
-      };
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.counter) {
-      clearInterval(this.counter);
-    }
-  }
-
-  render() {
-    return (
-      <>
-        {Math.floor(this.state.value / 60)}m {this.state.value % 60}s
-      </>
-    );
-  }
 }
 
 function isPipelineFinished(status) {
@@ -146,64 +103,4 @@ export class Pipeline extends React.Component {
       </div>
     );
   }
-}
-
-function estimateStageOrder(stageBuilds) {
-  return Object.entries(stageBuilds).sort(([_, buildsA], [__, buildsB]) => {
-    const earliestBuild = builds => {
-      // FIXME 2300 is a hack to get a really large date when sorting
-      return builds
-        .map(
-          b => (b.started_at ? parseDate(b.started_at) : new Date(2300, 12, 24))
-        )
-        .sort()[0];
-    };
-    return earliestBuild(buildsA) > earliestBuild(buildsB);
-  });
-}
-
-export function PipelineGraph({ pipeline }) {
-  const stages = {};
-  pipeline.builds.forEach(build => {
-    if (!stages[build.stage]) {
-      stages[build.stage] = [];
-    }
-
-    stages[build.stage].push(build);
-  });
-
-  const orderedStages = estimateStageOrder(stages);
-
-  return (
-    <div className="flex -mb-2">
-      {orderedStages.map(([stageName, builds]) => {
-        return (
-          <div className="flex flex-col mr-8 justify-center" key={stageName}>
-            {builds.map(b => {
-              const navigateToGitLab = () => {
-                const url = `http://gitlab.bof.mm.local/${
-                  pipeline._raw.project.path_with_namespace
-                }/-/jobs/${b.id}`;
-                window.open(url, "_blank");
-                window.focus();
-              };
-
-              return (
-                <div className="flex" key={b.id} onClick={navigateToGitLab}>
-                  <StatusIcon
-                    className="mb-2 mr-1"
-                    title={b._raw.name}
-                    status={b.status}
-                  />
-                  <span className="text-xs text-gray-lighter">
-                    {b._raw.name}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
-  );
 }

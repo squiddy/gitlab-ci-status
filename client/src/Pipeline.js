@@ -3,19 +3,23 @@ import React from "react";
 import { Avatar } from "./Avatar";
 import { StatusIcon } from "./StatusIcon";
 
+function parseDate(value) {
+  return new Date(value.replace(" UTC", "Z"));
+}
+
 export function getTotalBuildRunTimeMs(builds) {
   return builds.reduce((sum, b) => {
     if (!b.started_at) {
       return sum;
     }
 
-    const start = new Date(b.started_at.replace(" UTC", "Z"));
+    const start = parseDate(b.started_at);
 
     if (!b.finished_at) {
       return sum + (new Date() - start) / 1000;
     }
 
-    const finish = new Date(b.finished_at.replace(" UTC", "Z"));
+    const finish = parseDate(b.finished_at);
     return sum + (finish - start) / 1000;
   }, 0);
 }
@@ -120,22 +124,74 @@ export class Pipeline extends React.Component {
           className={"flex flex-col bg-indigo-darker rounded-b text-grey"}
           onClick={this.toggleDetails}
         >
-          {this.state.showDetails ? (
-            <div className="border-b border-dotted border-indigo-darkest px-4 py-2">
-              Details go here
-            </div>
-          ) : null}
           <div className="flex justify-between items-center w-full px-4 py-2">
             <div className="pipeline-duration">
               {isFinished ? "took" : "running for"}{" "}
               <Duration value={duration} ticking={!isFinished} />
             </div>
-            <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
+            {!this.state.showDetails && (
+              <PipelineGraph pipeline={pipeline} builds={pipeline.builds} />
+            )}
           </div>
+          {this.state.showDetails && (
+            <div className="border-t border-dotted border-indigo-darkest px-4 py-4">
+              <PipelineStuff pipeline={pipeline} />
+            </div>
+          )}
         </div>
       </div>
     );
   }
+}
+
+function estimateStageOrder(stageBuilds) {
+  return Object.entries(stageBuilds).sort(([_, buildsA], [__, buildsB]) => {
+    const earliestBuild = builds => {
+      // FIXME 2300 is a hack to get a really large date when sorting
+      return builds
+        .map(
+          b => (b.started_at ? parseDate(b.started_at) : new Date(2300, 12, 24))
+        )
+        .sort()[0];
+    };
+    return earliestBuild(buildsA) > earliestBuild(buildsB);
+  });
+}
+
+function PipelineStuff({ pipeline }) {
+  const stages = {};
+  pipeline._raw.builds.forEach(build => {
+    if (!stages[build.stage]) {
+      stages[build.stage] = [];
+    }
+
+    stages[build.stage].push(build);
+  });
+
+  const orderedStages = estimateStageOrder(stages);
+
+  return (
+    <div className="flex">
+      {orderedStages.map(([stageName, builds]) => {
+        return (
+          <div className="flex flex-col mr-8 justify-center" key={stageName}>
+            {builds.map(b => {
+              return (
+                <div className="flex" key={b.id}>
+                  <StatusIcon
+                    className="mb-2 mr-1"
+                    title={b.name}
+                    status={b.status}
+                  />
+                  <span className="text-xs text-gray-lighter">{b.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export function PipelineGraph({ pipeline, builds }) {

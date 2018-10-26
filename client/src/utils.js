@@ -15,3 +15,7 @@ export function estimateStageOrder(stageBuilds) {
     return earliestBuild(buildsA) > earliestBuild(buildsB);
   });
 }
+
+export function isPipelineFinished(status) {
+  return !["created", "pending", "running"].includes(status);
+}

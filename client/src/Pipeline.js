@@ -3,7 +3,7 @@ import React from "react";
 import { Avatar } from "./Avatar";
 import { StatusIcon } from "./StatusIcon";
 import { Duration } from "./Duration";
-import { parseDate } from "./utils";
+import { parseDate, isPipelineFinished } from "./utils";
 import { PipelineGraph } from "./PipelineGraph";
 
 export function getTotalBuildRunTimeMs(builds) {
@@ -21,10 +21,6 @@ export function getTotalBuildRunTimeMs(builds) {
     const finish = parseDate(b.finished_at);
     return sum + (finish - start) / 1000;
   }, 0);
-}
-
-function isPipelineFinished(status) {
-  return !["created", "pending", "running"].includes(status);
 }
 
 export class Pipeline extends React.Component {
@@ -62,7 +58,7 @@ export class Pipeline extends React.Component {
 
     return (
       <div
-        className={`flex flex-col my-8 rounded cursor-pointer ${
+        className={`flex flex-col mb-8 rounded cursor-pointer ${
           isMainRepository ? "main-repository" : ""
         }`}
       >

@@ -1,40 +1,38 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Pipeline } from "./Pipeline";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+function usePipelines() {
+  const [pipelines, setPipelines] = useState([]);
 
-    this.state = { pipelines: [] };
-  }
-
-  update() {
+  function update() {
     fetch("/initial")
       .then(res => res.json())
-      .then(data => {
-        this.setState({ pipelines: data });
-      });
+      .then(data => setPipelines(data));
   }
 
-  componentDidMount() {
-    this.timer = setInterval(this.update.bind(this), 10000);
-    this.update();
-  }
+  useEffect(update, []);
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
+  useEffect(() => {
+    const timerId = setInterval(update, 10000);
+    return () => {
+      clearInterval(timerId);
+    };
+  });
 
-  render() {
-    return (
-      <main className="container mx-auto">
-        {this.state.pipelines.map(p => {
-          return <Pipeline pipeline={p} key={p.id} />;
-        })}
-      </main>
-    );
-  }
+  return pipelines;
+}
+
+function App() {
+  const pipelines = usePipelines();
+
+  return (
+    <main className="container mx-auto">
+      {pipelines.map(p => {
+        return <Pipeline pipeline={p} key={p.id} />;
+      })}
+    </main>
+  );
 }
 
 export default App;

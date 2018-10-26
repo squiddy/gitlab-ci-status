@@ -1,43 +1,40 @@
-import React from "react";
+import React from "react"; // eslint-disable-line no-unused-vars
+import { useState, useEffect } from "react";
 
-export class Duration extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: Math.floor(props.value), lastUpdate: null };
-    this.counter = null;
+function useClock(isTicking) {
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [diff, setDiff] = useState(0);
+
+  function tick() {
+    const now = Date.now();
+    setDiff(diff + (now - lastUpdate) / 1000);
+    setLastUpdate(now);
   }
 
-  componentDidMount() {
-    if (this.props.ticking) {
-      this.setState(state => ({
-        lastUpdate: Date.now()
-      }));
-      this.counter = setInterval(this.tick.bind(this), 1000);
+  useEffect(() => {
+    let timerId;
+
+    if (isTicking) {
+      timerId = setInterval(tick, 1000);
     }
-  }
 
-  tick() {
-    this.setState(state => {
-      const now = Date.now();
-      const diff = Math.floor((Date.now() - state.lastUpdate) / 1000);
-      return {
-        value: state.value + diff,
-        lastUpdate: now
-      };
-    });
-  }
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    };
+  });
 
-  componentWillUnmount() {
-    if (this.counter) {
-      clearInterval(this.counter);
-    }
-  }
+  return diff;
+}
 
-  render() {
-    return (
-      <>
-        {Math.floor(this.state.value / 60)}m {this.state.value % 60}s
-      </>
-    );
-  }
+export function Duration(props) {
+  const diff = useClock(props.ticking);
+  const value = (props.value || 0) + diff;
+
+  return (
+    <>
+      {Math.floor(value / 60)}m {parseInt(value % 60)}s
+    </>
+  );
 }

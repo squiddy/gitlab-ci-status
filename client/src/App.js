@@ -42,7 +42,7 @@ function ToggleButton({ active, className, children, ...rest }) {
 
 function App() {
   const pipelines = usePipelines();
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const initialFilters = JSON.parse(window.localStorage.getItem("filters")) || {
     runningOnly: false

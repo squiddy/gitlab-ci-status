@@ -25,14 +25,33 @@ function usePipelines() {
   return pipelines;
 }
 
+function ToggleButton({ active, className, children, ...rest }) {
+  return (
+    <button
+      className={`${
+        active
+          ? "bg-grey-darkest hover:bg-grey-darker text-grey-light"
+          : "bg-grey-light hover:bg-grey text-grey-darkest"
+      } font-bold py-2 px-4 ${className}`}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
+
 function App() {
   const pipelines = usePipelines();
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const initialFilters = JSON.parse(window.localStorage.getItem("filters")) || {
     runningOnly: false
   };
   const [filters, setFilters] = useState(initialFilters);
+
+  function setFilterRunningOnly(value) {
+    setFilters({ ...filters, runningOnly: value });
+  }
 
   const filteredPipelines = pipelines.filter(
     p => (filters.runningOnly ? !isPipelineFinished(p.status) : true)
@@ -48,17 +67,22 @@ function App() {
         isVisible={sidebarVisible}
         onToggleVisibility={() => setSidebarVisible(!sidebarVisible)}
       >
-        <label className="text-sm">
-          <input
-            className="mr-4"
-            type="checkbox"
-            checked={filters.runningOnly}
-            onChange={() =>
-              setFilters({ ...filters, runningOnly: !filters.runningOnly })
-            }
-          />
-          Show running only
-        </label>
+        <div className="inline-flex text-xs">
+          <ToggleButton
+            active={!filters.runningOnly}
+            onClick={() => setFilterRunningOnly(false)}
+            className="rounded-l"
+          >
+            Show all
+          </ToggleButton>
+          <ToggleButton
+            active={filters.runningOnly}
+            onClick={() => setFilterRunningOnly(true)}
+            className="rounded-r"
+          >
+            Only running
+          </ToggleButton>
+        </div>
       </Sidebar>
       <div
         className="flex-grow my-4"

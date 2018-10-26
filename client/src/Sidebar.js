@@ -17,7 +17,7 @@ export function Sidebar(props) {
   }
 
   return (
-    <aside className="px-4 pr-8 py-4 items-strech bg-white shadow max-h-screen sticky pin-t">
+    <aside className="px-4 py-4 items-strech bg-white shadow max-h-screen sticky pin-t">
       <div className="top-4">
         <svg
           onClick={props.onToggleVisibility}

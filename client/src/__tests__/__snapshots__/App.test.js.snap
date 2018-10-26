@@ -5,24 +5,44 @@ exports[`renders without crashing 1`] = `
   className="flex justify-between min-h-screen"
 >
   <aside
-    className="px-4 max-h-screen sticky pin-t"
+    className="px-4 py-4 items-strech bg-white shadow max-h-screen sticky pin-t"
   >
-    <svg
-      className="fill-current my-4 w-4 h-4 cursor-pointer text-grey"
-      onClick={[Function]}
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      className="top-4"
     >
-      <path
-        d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"
-      />
-    </svg>
+      <svg
+        className="fill-current w-4 h-4 cursor-pointer text-black block mb-8"
+        onClick={[Function]}
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"
+        />
+      </svg>
+      <div
+        className="inline-flex text-xs"
+      >
+        <button
+          className="bg-grey-darkest hover:bg-grey-darker text-grey-light font-bold py-2 px-4 rounded-l"
+          onClick={[Function]}
+        >
+          Show all
+        </button>
+        <button
+          className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r"
+          onClick={[Function]}
+        >
+          Only running
+        </button>
+      </div>
+    </div>
   </aside>
   <div
     className="flex-grow my-4"
     style={
       Object {
-        "opacity": 1,
+        "opacity": 0.5,
       }
     }
   >

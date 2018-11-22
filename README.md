@@ -1,5 +1,7 @@
 # gitlab-ci-status: a live overview of CI pipelines
 
+[![CircleCI](https://circleci.com/gh/squiddy/gitlab-ci-status.svg?style=svg)](https://circleci.com/gh/squiddy/gitlab-ci-status)
+
 ## Motivation
 
 When working together with multiple colleagues, sharing a single gitlab

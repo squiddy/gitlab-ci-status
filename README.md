@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/squiddy/gitlab-ci-status.svg?style=svg)](https://circleci.com/gh/squiddy/gitlab-ci-status)
 
+![Screenshot](extras/screenshot.png)
+
 ## Motivation
 
 When working together with multiple colleagues, sharing a single gitlab

@@ -2,7 +2,11 @@ import React from "react"; // eslint-disable-line no-unused-vars
 
 import GitlabLogo from "./images/gitlab_logo.svg";
 
-export function Sidebar(props) {
+export function Sidebar(props: {
+  isVisible: boolean;
+  onToggleVisibility: () => void;
+  children: JSX.Element[] | JSX.Element;
+}) {
   if (!props.isVisible) {
     return (
       <aside className="px-4 max-h-screen sticky pin-t">

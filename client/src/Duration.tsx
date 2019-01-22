@@ -1,7 +1,7 @@
 import React from "react"; // eslint-disable-line no-unused-vars
 import { useState, useEffect } from "react";
 
-function useClock(isTicking) {
+function useClock(isTicking: boolean) {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [diff, setDiff] = useState(0);
 
@@ -12,10 +12,10 @@ function useClock(isTicking) {
   }
 
   useEffect(() => {
-    let timerId;
+    let timerId: number | null;
 
     if (isTicking) {
-      timerId = setInterval(tick, 1000);
+      timerId = window.setInterval(tick, 1000);
     }
 
     return () => {
@@ -28,13 +28,13 @@ function useClock(isTicking) {
   return diff;
 }
 
-export function Duration(props) {
+export function Duration(props: { ticking: boolean; value: number | null }) {
   const diff = useClock(props.ticking);
   const value = (props.value || 0) + diff;
 
   return (
     <>
-      {Math.floor(value / 60)}m {parseInt(value % 60)}s
+      {Math.floor(value / 60)}m {Math.floor(value % 60)}s
     </>
   );
 }

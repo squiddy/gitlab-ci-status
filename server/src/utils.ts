@@ -1,8 +1,8 @@
-const fs = require("fs");
+import fs from "fs";
 
-const { State } = require("./state");
+import { State } from "./state";
 
-function restoreState(state, filename) {
+export function restoreState(state: State, filename: string) {
   try {
     const data = JSON.parse(fs.readFileSync(filename, "utf8"));
     if (data) {
@@ -14,7 +14,7 @@ function restoreState(state, filename) {
   }
 }
 
-function persistState(state, filename) {
+export function persistState(state: State, filename: string) {
   try {
     fs.writeFileSync(
       filename,
@@ -27,8 +27,3 @@ function persistState(state, filename) {
     console.log("Couldn't persist state to disk:", err);
   }
 }
-
-module.exports = {
-  restoreState,
-  persistState
-};

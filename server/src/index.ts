@@ -1,26 +1,32 @@
-const fs = require("fs");
-const path = require("path");
+import fs = require("fs");
+import path = require("path");
 
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const compression = require("compression");
+import express, { Application } from "express";
+import morgan from "morgan";
+import bodyParser from "body-parser";
+import compression from "compression";
 
-const { State } = require("./state");
-const { persistState, restoreState } = require("./utils");
-const { createWebhookHandler } = require("./webhook");
+import { State } from "./state";
+import { persistState, restoreState } from "./utils";
+import { createWebhookHandler, WebhookBuild, WebhookPipeline } from "./webhook";
 
-function createServer(options) {
+interface ServerOptions {
+  persistPath?: string;
+  webhookSecret: string;
+  port: number;
+}
+
+function createServer(options: ServerOptions): Application {
   const state = new State();
   if (options.persistPath) {
     restoreState(state, options.persistPath);
   }
 
-  const handler = createWebhookHandler(options.webhookSecret, data => {
+  const handler = createWebhookHandler(options.webhookSecret, (data: any) => {
     if (data.object_kind === "build") {
-      state.handleBuild(data);
+      state.handleBuild(data as WebhookBuild);
     } else if (data.object_kind === "pipeline") {
-      state.handlePipeline(data);
+      state.handlePipeline(data as WebhookPipeline);
     }
 
     if (options.persistPath) {
@@ -66,9 +72,9 @@ function createServer(options) {
   return app;
 }
 
-function startServer(options) {
+export function startServer(options: ServerOptions) {
   const app = createServer(options);
-  return app.listen(options.port, err => {
+  return app.listen(options.port, (err: string | null) => {
     if (err) {
       console.log(err);
     }
@@ -76,8 +82,3 @@ function startServer(options) {
     console.log("Server running ...");
   });
 }
-
-module.exports = {
-  createServer,
-  startServer
-};

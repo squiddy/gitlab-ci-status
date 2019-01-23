@@ -1,8 +1,10 @@
-const { State } = require("../src/state");
+import { State } from "../src/state";
+import { WebhookPipeline, WebhookBuild } from "../src/webhook";
 
 const pipelineData = {
   object_attributes: {
-    id: 5
+    id: 5,
+    status: "created"
   },
   project: {
     name: "test-project"
@@ -25,25 +27,25 @@ test("State can be constructed", () => {
 
 test("State can handle new pipelines", () => {
   const state = new State();
-  state.handlePipeline(pipelineData);
+  state.handlePipeline(pipelineData as WebhookPipeline);
 
   expect(state.pipelines.size).toEqual(1);
-  expect(state.pipelines.get(5).id).toEqual(5);
-  expect(state.pipelines.get(5).builds).toEqual([2, 6]);
-  expect(state.pipelines.get(5)._raw).toEqual(pipelineData);
+  expect(state.pipelines.get(5)!.id).toEqual(5);
+  expect(state.pipelines.get(5)!.builds).toEqual([2, 6]);
+  expect(state.pipelines.get(5)!._raw).toEqual(pipelineData);
   expect(state.builds.size).toEqual(2);
 });
 
 test("State can handle updating pipelines", () => {
   const state = new State();
-  state.handlePipeline(pipelineData);
+  state.handlePipeline(pipelineData as WebhookPipeline);
 
   const data = Object.assign({}, pipelineData);
   data.object_attributes.status = "success";
-  state.handlePipeline(data);
+  state.handlePipeline(data as WebhookPipeline);
 
   expect(state.pipelines.size).toEqual(1);
-  expect(state.pipelines.get(5).status).toBe("success");
+  expect(state.pipelines.get(5)!.status).toBe("success");
 });
 
 test("State can handle updating builds", () => {
@@ -60,15 +62,15 @@ test("State can handle updating builds", () => {
           status: "created"
         }
       ]
-    })
+    } as WebhookPipeline)
   );
-  expect(state.builds.get(2).status).toEqual("created");
-  expect(state.builds.get(6).status).toEqual("created");
+  expect(state.builds.get(2)!.status).toEqual("created");
+  expect(state.builds.get(6)!.status).toEqual("created");
 
   state.handleBuild({
     build_id: 6,
     build_status: "success"
-  });
-  expect(state.builds.get(2).status).toEqual("created");
-  expect(state.builds.get(6).status).toEqual("success");
+  } as WebhookBuild);
+  expect(state.builds.get(2)!.status).toEqual("created");
+  expect(state.builds.get(6)!.status).toEqual("success");
 });

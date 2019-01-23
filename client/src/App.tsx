@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Pipeline } from "./Pipeline";
 import { Sidebar } from "./Sidebar";
 import { isPipelineFinished } from "./utils";
+import { PipelineData } from "./types";
 
-function usePipelines() {
+function usePipelines(): PipelineData[] {
   const [pipelines, setPipelines] = useState([]);
 
   function update() {
@@ -25,7 +26,16 @@ function usePipelines() {
   return pipelines;
 }
 
-function ToggleButton({ active, className, children, ...rest }) {
+function ToggleButton({
+  active,
+  className,
+  children,
+  ...rest
+}: {
+  active: boolean;
+  className: string;
+  children: JSX.Element[] | JSX.Element;
+} & any) {
   return (
     <button
       className={`${
@@ -44,17 +54,20 @@ function App() {
   const pipelines = usePipelines();
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  const initialFilters = JSON.parse(window.localStorage.getItem("filters")) || {
-    runningOnly: false
-  };
+  const data = window.localStorage.getItem("filters");
+  const initialFilters = data
+    ? JSON.parse(data)
+    : {
+        runningOnly: false
+      };
   const [filters, setFilters] = useState(initialFilters);
 
-  function setFilterRunningOnly(value) {
+  function setFilterRunningOnly(value: boolean) {
     setFilters({ ...filters, runningOnly: value });
   }
 
-  const filteredPipelines = pipelines.filter(
-    p => (filters.runningOnly ? !isPipelineFinished(p.status) : true)
+  const filteredPipelines = pipelines.filter(p =>
+    filters.runningOnly ? !isPipelineFinished(p.status) : true
   );
 
   useEffect(() => {

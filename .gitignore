@@ -1,3 +1,4 @@
 node_modules/
 appstate.json
 yarn-error.log
+server/lib/

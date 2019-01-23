@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/squiddy/gitlab-ci-status.svg?style=svg)](https://circleci.com/gh/squiddy/gitlab-ci-status)
 
+Note: This is a pet project of mine, so I might try different things from time to time.
+
 ![Screenshot](extras/screenshot.png)
 
 ## Motivation

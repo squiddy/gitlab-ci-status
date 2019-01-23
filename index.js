@@ -1,4 +1,4 @@
-const { startServer } = require("./server/src");
+const { startServer } = require("./server/lib");
 
 if (!process.env.APP_WEBHOOK_SECRET) {
   console.error("Setting APP_WEBHOOK_SECRET not specified. Aborting.");

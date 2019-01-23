@@ -1,10 +1,32 @@
-class State {
+import { WebhookBuild, WebhookPipeline } from "./webhook";
+
+interface PipelineState {
+  id: number;
+  created_at: string;
+  builds: number[];
+  status: string;
+  _raw: any;
+}
+
+interface BuildState {
+  id: number;
+  stage: string;
+  status: string;
+  started_at: string | null;
+  finished_at: string | null;
+  _raw: any;
+}
+
+export class State {
+  pipelines: Map<number, PipelineState>;
+  builds: Map<number, BuildState>;
+
   constructor() {
     this.pipelines = new Map();
     this.builds = new Map();
   }
 
-  handleBuild(data) {
+  handleBuild(data: WebhookBuild) {
     const entry = {
       id: data.build_id,
       stage: data.build_stage,
@@ -17,7 +39,7 @@ class State {
     this.builds.set(data.build_id, entry);
   }
 
-  handlePipeline(data) {
+  handlePipeline(data: WebhookPipeline) {
     const entry = {
       id: data.object_attributes.id,
       ref: data.object_attributes.ref,
@@ -48,5 +70,3 @@ class State {
     });
   }
 }
-
-module.exports.State = State;

@@ -5,8 +5,9 @@ import { StatusIcon } from "./StatusIcon";
 import { Duration } from "./Duration";
 import { parseDate, isPipelineFinished } from "./utils";
 import { PipelineGraph } from "./PipelineGraph";
+import { BuildData, PipelineData } from "./types";
 
-export function getTotalBuildRunTimeMs(builds) {
+export function getTotalBuildRunTimeMs(builds: BuildData[]): number {
   return builds.reduce((sum, b) => {
     if (!b.started_at) {
       return sum;
@@ -15,16 +16,23 @@ export function getTotalBuildRunTimeMs(builds) {
     const start = parseDate(b.started_at);
 
     if (!b.finished_at) {
-      return sum + (new Date() - start) / 1000;
+      return sum + (new Date().getTime() - start.getTime()) / 1000;
     }
 
     const finish = parseDate(b.finished_at);
-    return sum + (finish - start) / 1000;
+    return sum + (finish.getTime() - start.getTime()) / 1000;
   }, 0);
 }
 
-export class Pipeline extends React.Component {
-  constructor(props) {
+interface PipelineState {
+  showDetails: boolean;
+}
+
+export class Pipeline extends React.Component<
+  { pipeline: PipelineData },
+  PipelineState
+> {
+  constructor(props: any) {
     super(props);
 
     this.state = {

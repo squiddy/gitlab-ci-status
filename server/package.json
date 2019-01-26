@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "start:live": "nodemon -e js --exec node --inspect -- ./index.js",
-    "test:watch": "jest --watch --verbose",
-    "test": "jest --verbose",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc",
+    "test": "jest",
     "check-code:prettier": "prettier -l '{src,__tests__}/**/*.js'",
     "check-code": "yarn check-code:prettier"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "transform": {
       "^.+\\.ts?$": "ts-jest"
     },
@@ -33,6 +35,7 @@
     "prettier": "^1.5.3",
     "supertest": "^3.0.0",
     "ts-jest": "^23.10.5",
+    "ts-node": "^8.0.1",
     "typescript": "^3.2.4"
   }
 }

@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "start": "node index.js",
-    "start:live": "nodemon --watch server --exec node --inspect -- ./index.js"
+    "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\""
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

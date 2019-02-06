@@ -5,12 +5,12 @@
   "dependencies": {
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
-    "@types/react": "^16.7.20",
-    "@types/react-dom": "^16.0.11",
-    "react": "16.8.0-alpha.1",
-    "react-dom": "^16.8.0-alpha.1",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
+    "react": "16.8.0",
+    "react-dom": "^16.8.0",
     "react-scripts": "2.1.3",
-    "react-test-renderer": "^16.8.0-alpha.1",
+    "react-test-renderer": "^16.8.0",
     "typescript": "^3.2.4"
   },
   "scripts": {

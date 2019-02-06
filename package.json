@@ -16,6 +16,6 @@
     "build-docker": "docker build -t gitlab-ci-status ."
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.1.0"
   }
 }

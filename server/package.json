@@ -20,10 +20,10 @@
     "testRegex": "/__tests__/.*\\.ts$"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.3",
     "compression": "^1.7.3",
-    "express": "^4.15.3",
-    "morgan": "^1.8.2"
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "@types/compression": "^0.0.36",
@@ -31,11 +31,11 @@
     "@types/jest": "^23.3.13",
     "@types/morgan": "^1.7.35",
     "jest": "23.6.0",
-    "nodemon": "^1.11.0",
-    "prettier": "^1.5.3",
-    "supertest": "^3.0.0",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.16.4",
+    "supertest": "^3.4.2",
     "ts-jest": "^23.10.5",
-    "ts-node": "^8.0.1",
-    "typescript": "^3.2.4"
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.1"
   }
 }

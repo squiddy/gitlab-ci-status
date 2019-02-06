@@ -66,8 +66,8 @@ function App() {
     setFilters({ ...filters, runningOnly: value });
   }
 
-  const filteredPipelines = pipelines.filter(p =>
-    filters.runningOnly ? !isPipelineFinished(p.status) : true
+  const filteredPipelines = pipelines.filter(
+    p => (filters.runningOnly ? !isPipelineFinished(p.status) : true)
   );
 
   useEffect(() => {

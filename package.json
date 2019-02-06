@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\"",
-    "build-docker": "docker build -t gitlab-ci-status ."
+    "build-docker": "docker build -t gitlab-ci-status .",
+    "format-code": "prettier --write \"**/*{.ts,.tsx}\""
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

@@ -1,5 +1,5 @@
-import { State } from "../src/state";
-import { WebhookPipeline, WebhookBuild } from "../src/webhook";
+import { State } from "../state";
+import { WebhookPipeline, WebhookBuild } from "../webhook";
 
 const pipelineData = {
   object_attributes: {

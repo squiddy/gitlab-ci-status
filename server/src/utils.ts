@@ -1,10 +1,10 @@
-import fs from "fs";
+import fs from 'fs';
 
-import { State } from "./state";
+import { State } from './state';
 
 export function restoreState(state: State, filename: string) {
   try {
-    const data = JSON.parse(fs.readFileSync(filename, "utf8"));
+    const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
     if (data) {
       state.builds = new Map(data.builds);
       state.pipelines = new Map(data.pipelines);

@@ -1,25 +1,25 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import React from 'react';
+import renderer from 'react-test-renderer';
 
-import { PipelineGraph } from "../PipelineGraph";
+import { PipelineGraph } from '../PipelineGraph';
 
-it("PipelineGraph renders correctly", () => {
+it('PipelineGraph renders correctly', () => {
   const pipeline = {
     builds: [
       {
         id: 1,
-        stage: "check",
-        status: "success",
+        stage: 'check',
+        status: 'success',
         _raw: {
-          name: "check_code"
+          name: 'check_code'
         }
       },
       {
         id: 2,
-        stage: "test",
-        status: "running",
+        stage: 'test',
+        status: 'running',
         _raw: {
-          name: "test"
+          name: 'test'
         }
       }
     ]

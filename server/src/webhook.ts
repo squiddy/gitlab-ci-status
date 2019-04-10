@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { RequestHandler } from 'express';
 
 export interface WebhookPipeline {
   object_attributes: {
@@ -36,12 +36,12 @@ export function createWebhookHandler(
   callback: any
 ): RequestHandler {
   return (req, res) => {
-    if (req.header("x-gitlab-token") !== token) {
-      res.status(400).send("invalid token");
+    if (req.header('x-gitlab-token') !== token) {
+      res.status(400).send('invalid token');
     }
 
     if (!req.body.object_kind) {
-      res.status(400).send("invalid payload");
+      res.status(400).send('invalid payload');
     }
 
     callback(req.body);

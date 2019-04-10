@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { Pipeline } from "./Pipeline";
-import { Sidebar } from "./Sidebar";
-import { isPipelineFinished } from "./utils";
-import { PipelineData } from "./types";
+import { Pipeline } from './Pipeline';
+import { Sidebar } from './Sidebar';
+import { isPipelineFinished } from './utils';
+import { PipelineData } from './types';
 
 function usePipelines(): PipelineData[] {
   const [pipelines, setPipelines] = useState([]);
 
   function update() {
-    fetch("/initial")
+    fetch('/initial')
       .then(res => res.json())
       .then(data => setPipelines(data));
   }
@@ -40,8 +40,8 @@ function ToggleButton({
     <button
       className={`${
         active
-          ? "bg-grey-darkest hover:bg-grey-darker text-grey-light"
-          : "bg-grey-light hover:bg-grey text-grey-darkest"
+          ? 'bg-grey-darkest hover:bg-grey-darker text-grey-light'
+          : 'bg-grey-light hover:bg-grey text-grey-darkest'
       } font-bold py-2 px-4 ${className}`}
       {...rest}
     >
@@ -54,7 +54,7 @@ function App() {
   const pipelines = usePipelines();
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  const data = window.localStorage.getItem("filters");
+  const data = window.localStorage.getItem('filters');
   const initialFilters = data
     ? JSON.parse(data)
     : {
@@ -71,7 +71,7 @@ function App() {
   );
 
   useEffect(() => {
-    window.localStorage.setItem("filters", JSON.stringify(filters));
+    window.localStorage.setItem('filters', JSON.stringify(filters));
   });
 
   return (

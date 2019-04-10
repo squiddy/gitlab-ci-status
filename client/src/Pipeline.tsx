@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Avatar } from "./Avatar";
-import { StatusIcon } from "./StatusIcon";
-import { Duration } from "./Duration";
-import { parseDate, isPipelineFinished } from "./utils";
-import { PipelineGraph } from "./PipelineGraph";
-import { BuildData, PipelineData } from "./types";
+import { Avatar } from './Avatar';
+import { StatusIcon } from './StatusIcon';
+import { Duration } from './Duration';
+import { parseDate, isPipelineFinished } from './utils';
+import { PipelineGraph } from './PipelineGraph';
+import { BuildData, PipelineData } from './types';
 
 export function getTotalBuildRunTimeMs(builds: BuildData[]): number {
   return builds.reduce((sum, b) => {
@@ -26,7 +26,7 @@ export function getTotalBuildRunTimeMs(builds: BuildData[]): number {
 
 export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
   const [showDetails, setShowDetails] = useState(
-    !isPipelineFinished(pipeline.status) || pipeline.status === "failed"
+    !isPipelineFinished(pipeline.status) || pipeline.status === 'failed'
   );
 
   const duration = getTotalBuildRunTimeMs(pipeline.builds);
@@ -35,7 +35,7 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
     const url = `http://gitlab.bof.mm.local/${
       pipeline._raw.project.path_with_namespace
     }/pipelines/${pipeline.id}`;
-    window.open(url, "_blank");
+    window.open(url, '_blank');
     window.focus();
   };
 
@@ -47,7 +47,7 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
   return (
     <div
       className={`flex flex-col mb-8 rounded cursor-pointer ${
-        isMainRepository ? "main-repository" : ""
+        isMainRepository ? 'main-repository' : ''
       }`}
     >
       <div
@@ -67,7 +67,7 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
         </div>
       </div>
       <div
-        className={"flex flex-col bg-indigo-darker rounded-b text-grey"}
+        className={'flex flex-col bg-indigo-darker rounded-b text-grey'}
         onClick={() => setShowDetails(!showDetails)}
       >
         {showDetails && (
@@ -77,7 +77,7 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
         )}
         <div className="flex justify-between items-center w-full px-4 py-2">
           <div className="text-xs">
-            {isFinished ? "took" : "running for"}{" "}
+            {isFinished ? 'took' : 'running for'}{' '}
             <Duration value={duration} ticking={!isFinished} />
           </div>
         </div>

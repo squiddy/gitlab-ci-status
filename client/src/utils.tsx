@@ -1,7 +1,7 @@
-import { BuildData, Status } from "./types";
+import { BuildData, Status } from './types';
 
 export function parseDate(value: string) {
-  return new Date(value.replace(" UTC", "Z"));
+  return new Date(value.replace(' UTC', 'Z'));
 }
 
 export function estimateStageOrder(stageBuilds: {

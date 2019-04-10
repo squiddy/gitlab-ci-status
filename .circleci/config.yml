@@ -17,6 +17,10 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Prettier
+          command: yarn prettier -l '**/*.{ts,tsx}'
         
       - run: 
           name: Run client tests

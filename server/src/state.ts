@@ -1,4 +1,4 @@
-import { WebhookBuild, WebhookPipeline } from "./webhook";
+import { WebhookBuild, WebhookPipeline } from './webhook';
 
 interface PipelineState {
   id: number;

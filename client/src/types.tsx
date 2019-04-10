@@ -1,12 +1,12 @@
 export enum Status {
-  Failed = "failed",
-  Success = "success",
-  Skipped = "skipped",
-  Canceled = "canceled",
-  Running = "running",
-  Created = "created",
-  Pending = "pending",
-  Manual = "manual"
+  Failed = 'failed',
+  Success = 'success',
+  Skipped = 'skipped',
+  Canceled = 'canceled',
+  Running = 'running',
+  Created = 'created',
+  Pending = 'pending',
+  Manual = 'manual'
 }
 
 export interface BuildData {

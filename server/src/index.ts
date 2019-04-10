@@ -1,7 +1,7 @@
-import { startServer } from "./server";
+import { startServer } from './server';
 
 if (!process.env.APP_WEBHOOK_SECRET) {
-  console.error("Setting APP_WEBHOOK_SECRET not specified. Aborting.");
+  console.error('Setting APP_WEBHOOK_SECRET not specified. Aborting.');
   process.exit(1);
 }
 
@@ -12,9 +12,9 @@ const server = startServer({
 });
 
 const shutdown = () => {
-  console.log("Shutdown requested ...");
+  console.log('Shutdown requested ...');
   process.exit();
 };
 
-process.once("SIGINT", shutdown);
-process.once("SIGTERM", shutdown);
+process.once('SIGINT', shutdown);
+process.once('SIGTERM', shutdown);

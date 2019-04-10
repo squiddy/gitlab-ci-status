@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { estimateStageOrder } from "./utils";
-import { StatusIcon } from "./StatusIcon";
-import { Pipeline } from "./Pipeline";
-import { BuildData, PipelineData, Status } from "./types";
+import { estimateStageOrder } from './utils';
+import { StatusIcon } from './StatusIcon';
+import { Pipeline } from './Pipeline';
+import { BuildData, PipelineData, Status } from './types';
 
 export function PipelineGraph({ pipeline }: { pipeline: PipelineData }) {
   const stages: { [index: string]: BuildData[] } = {};
@@ -27,7 +27,7 @@ export function PipelineGraph({ pipeline }: { pipeline: PipelineData }) {
                 const url = `http://gitlab.bof.mm.local/${
                   pipeline._raw.project.path_with_namespace
                 }/-/jobs/${b.id}`;
-                window.open(url, "_blank");
+                window.open(url, '_blank');
                 window.focus();
               };
 

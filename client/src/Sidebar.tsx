@@ -1,6 +1,6 @@
-import React from "react"; // eslint-disable-line no-unused-vars
+import React from 'react'; // eslint-disable-line no-unused-vars
 
-import GitlabLogo from "./images/gitlab_logo.svg";
+import GitlabLogo from './images/gitlab_logo.svg';
 
 export function Sidebar(props: {
   isVisible: boolean;

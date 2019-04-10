@@ -1,12 +1,12 @@
-import React, { ClassAttributes, SVGAttributes } from "react";
+import React, { ClassAttributes, SVGAttributes } from 'react';
 
-import { ReactComponent as Failed } from "./images/failed.svg";
-import { ReactComponent as Success } from "./images/success.svg";
-import { ReactComponent as Skipped } from "./images/skipped.svg";
-import { ReactComponent as Running } from "./images/running.svg";
-import { ReactComponent as Created } from "./images/created.svg";
-import { ReactComponent as Pending } from "./images/pending.svg";
-import { Status } from "./types";
+import { ReactComponent as Failed } from './images/failed.svg';
+import { ReactComponent as Success } from './images/success.svg';
+import { ReactComponent as Skipped } from './images/skipped.svg';
+import { ReactComponent as Running } from './images/running.svg';
+import { ReactComponent as Created } from './images/created.svg';
+import { ReactComponent as Pending } from './images/pending.svg';
+import { Status } from './types';
 
 const Components: { [index: string]: React.FunctionComponent } = {
   [Status.Failed]: Failed,

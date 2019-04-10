@@ -1,5 +1,5 @@
-import React from "react"; // eslint-disable-line no-unused-vars
-import { useState, useEffect } from "react";
+import React from 'react'; // eslint-disable-line no-unused-vars
+import { useState, useEffect } from 'react';
 
 function useClock(isTicking: boolean) {
   const [lastUpdate, setLastUpdate] = useState(Date.now());

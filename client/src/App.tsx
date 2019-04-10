@@ -50,6 +50,16 @@ function ToggleButton({
   );
 }
 
+interface FilterConfig {
+  runningOnly: boolean;
+}
+
+function filterPipelines(pipelines: PipelineData[], filters: FilterConfig) {
+  return pipelines.filter(p =>
+    filters.runningOnly ? !isPipelineFinished(p.status) : true
+  );
+}
+
 function App() {
   const pipelines = usePipelines();
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -66,9 +76,7 @@ function App() {
     setFilters({ ...filters, runningOnly: value });
   }
 
-  const filteredPipelines = pipelines.filter(
-    p => (filters.runningOnly ? !isPipelineFinished(p.status) : true)
-  );
+  const filteredPipelines = filterPipelines(pipelines, filters);
 
   useEffect(() => {
     window.localStorage.setItem('filters', JSON.stringify(filters));

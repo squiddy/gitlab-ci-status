@@ -1,6 +1,6 @@
 FROM node:8-alpine
 
-LABEL maintainer="me@reinergereckede" \
+LABEL maintainer="me@reinergerecke.de" \
       io.openshift.tags=nodejs \
       io.openshift.non-scalable=true \
       io.openshift.expose-services=4000:http \

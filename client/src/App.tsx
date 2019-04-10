@@ -52,12 +52,16 @@ function ToggleButton({
 
 interface FilterConfig {
   runningOnly: boolean;
+  projectsOnly: { [key: string]: boolean };
 }
 
 function filterPipelines(pipelines: PipelineData[], filters: FilterConfig) {
-  return pipelines.filter(p =>
-    filters.runningOnly ? !isPipelineFinished(p.status) : true
-  );
+  const anyProjectFilterSet = Object.values(filters.projectsOnly).some(v => v);
+  return pipelines
+    .filter(p => (filters.runningOnly ? !isPipelineFinished(p.status) : true))
+    .filter(p =>
+      anyProjectFilterSet ? filters.projectsOnly[p.project.name] : true
+    );
 }
 
 function App() {
@@ -68,13 +72,29 @@ function App() {
   const initialFilters = data
     ? JSON.parse(data)
     : {
-        runningOnly: false
+        runningOnly: false,
+        projectsOnly: {}
       };
+  if (!initialFilters.projectsOnly) {
+    initialFilters.projectsOnly = {};
+  }
   const [filters, setFilters] = useState(initialFilters);
 
   function setFilterRunningOnly(value: boolean) {
     setFilters({ ...filters, runningOnly: value });
   }
+
+  function toggleProjectFilter(project: string) {
+    setFilters({
+      ...filters,
+      projectsOnly: {
+        ...filters.projectsOnly,
+        [project]: !filters.projectsOnly[project]
+      }
+    });
+  }
+
+  const projectNames = Array.from(new Set(pipelines.map(p => p.project.name)));
 
   const filteredPipelines = filterPipelines(pipelines, filters);
 
@@ -88,7 +108,8 @@ function App() {
         isVisible={sidebarVisible}
         onToggleVisibility={() => setSidebarVisible(!sidebarVisible)}
       >
-        <div className="inline-flex text-xs">
+        <h4 className="font-light mb-2 text-xs">Status</h4>
+        <div className="inline-flex text-xs mb-4">
           <ToggleButton
             active={!filters.runningOnly}
             onClick={() => setFilterRunningOnly(false)}
@@ -103,6 +124,19 @@ function App() {
           >
             Only running
           </ToggleButton>
+        </div>
+
+        <h4 className="font-light mb-2 text-xs">Projects</h4>
+        <div className="text-xs">
+          {projectNames.map(name => (
+            <ToggleButton
+              active={filters.projectsOnly[name]}
+              onClick={() => toggleProjectFilter(name)}
+              className="w-full mb-1 rounded"
+            >
+              {name}
+            </ToggleButton>
+          ))}
         </div>
       </Sidebar>
       <div

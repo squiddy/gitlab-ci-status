@@ -59,8 +59,8 @@ function filterPipelines(pipelines: PipelineData[], filters: FilterConfig) {
   const anyProjectFilterSet = Object.values(filters.projectsOnly).some(v => v);
   return pipelines
     .filter(p => (filters.runningOnly ? !isPipelineFinished(p.status) : true))
-    .filter(p =>
-      anyProjectFilterSet ? filters.projectsOnly[p.project.name] : true
+    .filter(
+      p => (anyProjectFilterSet ? filters.projectsOnly[p.project.name] : true)
     );
 }
 

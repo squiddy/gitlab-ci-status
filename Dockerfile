@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:8-alpine as builder
 
 LABEL maintainer="me@reinergerecke.de" \
       io.openshift.tags=nodejs \
@@ -18,7 +18,10 @@ RUN yarn
 ADD . ./
 RUN cd client && yarn build
 RUN cd server && yarn build
+RUN yarn build-binary
 
-CMD ["node", "server/lib/index.js"]
+FROM debian:stable-slim
+COPY --from=builder /code/gitlab-ci-status /
+CMD ["./gitlab-ci-status"]
 
 EXPOSE 4000

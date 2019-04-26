@@ -13,10 +13,16 @@
   ],
   "scripts": {
     "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\"",
+    "build-binary": "pkg --targets node10-linux package.json",
     "build-docker": "docker build -t gitlab-ci-status .",
     "format-code": "prettier --write \"**/*{.ts,.tsx}\""
   },
   "devDependencies": {
     "concurrently": "^4.1.0"
-  }
+  },
+  "pkg": {
+    "scripts": "server/lib/**/*.js",
+    "assets": ["client/build/"]
+  },
+  "bin": "server/lib/index.js"
 }

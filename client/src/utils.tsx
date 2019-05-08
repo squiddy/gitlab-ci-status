@@ -11,8 +11,8 @@ export function estimateStageOrder(stageBuilds: {
     const earliestBuild = (builds: BuildData[]) => {
       // FIXME 2300 is a hack to get a really large date when sorting
       return builds
-        .map(
-          b => (b.started_at ? parseDate(b.started_at) : new Date(2300, 12, 24))
+        .map(b =>
+          b.started_at ? parseDate(b.started_at) : new Date(2300, 12, 24)
         )
         .sort()[0];
     };

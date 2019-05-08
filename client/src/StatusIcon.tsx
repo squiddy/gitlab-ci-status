@@ -1,4 +1,4 @@
-import React, { ClassAttributes, SVGAttributes } from 'react';
+import React from 'react';
 
 import { ReactComponent as Failed } from './images/failed.svg';
 import { ReactComponent as Success } from './images/success.svg';

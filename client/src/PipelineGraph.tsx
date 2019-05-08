@@ -2,8 +2,7 @@ import React from 'react';
 
 import { estimateStageOrder } from './utils';
 import { StatusIcon } from './StatusIcon';
-import { Pipeline } from './Pipeline';
-import { BuildData, PipelineData, Status } from './types';
+import { BuildData, PipelineData } from './types';
 
 export function PipelineGraph({ pipeline }: { pipeline: PipelineData }) {
   const stages: { [index: string]: BuildData[] } = {};

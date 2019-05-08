@@ -35,7 +35,7 @@ export function Sidebar(props: {
         </svg>
 
         <div className="text-center mb-8">
-          <img className="w-24 mb-2" src={GitlabLogo} />
+          <img className="w-24 mb-2" src={GitlabLogo} alt="Gitlab logo" />
           <h1 className="text-lg text-grey-dark font-light">
             GitLab CI Status
           </h1>

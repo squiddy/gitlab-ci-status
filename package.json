@@ -22,7 +22,9 @@
   },
   "pkg": {
     "scripts": "server/lib/**/*.js",
-    "assets": ["client/build/"]
+    "assets": [
+      "client/build/"
+    ]
   },
   "bin": "server/lib/index.js"
 }

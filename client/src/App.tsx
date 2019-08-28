@@ -53,15 +53,18 @@ function ToggleButton({
 interface FilterConfig {
   runningOnly: boolean;
   projectsOnly: { [key: string]: boolean };
+  usersOnly: { [key: string]: boolean };
 }
 
 function filterPipelines(pipelines: PipelineData[], filters: FilterConfig) {
   const anyProjectFilterSet = Object.values(filters.projectsOnly).some(v => v);
+  const anyUserFilterSet = Object.values(filters.usersOnly).some(v => v);
   return pipelines
     .filter(p => (filters.runningOnly ? !isPipelineFinished(p.status) : true))
     .filter(p =>
       anyProjectFilterSet ? filters.projectsOnly[p.project.name] : true
-    );
+    )
+    .filter(p => (anyUserFilterSet ? filters.usersOnly[p.user.name] : true));
 }
 
 function App() {
@@ -73,10 +76,14 @@ function App() {
     ? JSON.parse(data)
     : {
         runningOnly: false,
-        projectsOnly: {}
+        projectsOnly: {},
+        usersOnly: {}
       };
   if (!initialFilters.projectsOnly) {
     initialFilters.projectsOnly = {};
+  }
+  if (!initialFilters.usersOnly) {
+    initialFilters.usersOnly = {};
   }
   const [filters, setFilters] = useState(initialFilters);
 
@@ -94,7 +101,18 @@ function App() {
     });
   }
 
+  function toggleUserFilter(user: string) {
+    setFilters({
+      ...filters,
+      usersOnly: {
+        ...filters.usersOnly,
+        [user]: !filters.usersOnly[user]
+      }
+    });
+  }
+
   const projectNames = Array.from(new Set(pipelines.map(p => p.project.name)));
+  const userNames = Array.from(new Set(pipelines.map(p => p.user.name)));
 
   const filteredPipelines = filterPipelines(pipelines, filters);
 
@@ -127,11 +145,24 @@ function App() {
         </div>
 
         <h4 className="font-light mb-2 text-xs">Projects</h4>
-        <div className="text-xs">
+        <div className="text-xs mb-4">
           {projectNames.map(name => (
             <ToggleButton
               active={filters.projectsOnly[name]}
               onClick={() => toggleProjectFilter(name)}
+              className="w-full mb-1 rounded"
+            >
+              {name}
+            </ToggleButton>
+          ))}
+        </div>
+
+        <h4 className="font-light mb-2 text-xs">Users</h4>
+        <div className="text-xs">
+          {userNames.map(name => (
+            <ToggleButton
+              active={filters.usersOnly[name]}
+              onClick={() => toggleUserFilter(name)}
               className="w-full mb-1 rounded"
             >
               {name}

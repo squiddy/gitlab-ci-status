@@ -27,6 +27,7 @@ interface Project {
 
 interface User {
   avatar_url: string | null;
+  name: string;
 }
 
 export interface PipelineData {

@@ -22,20 +22,20 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
-    "express": "^4.17.0",
+    "express": "^4.17.1",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "@types/compression": "^0.0.36",
-    "@types/express": "^4.16.1",
-    "@types/jest": "^24.0.13",
-    "@types/morgan": "^1.7.35",
-    "nodemon": "^1.18.9",
+    "@types/compression": "^1.0.1",
+    "@types/express": "^4.17.1",
+    "@types/jest": "^24.0.18",
+    "@types/morgan": "^1.7.37",
+    "nodemon": "^1.19.1",
     "pkg": "^4.4.0",
-    "prettier": "^1.17.1",
+    "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.1"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   }
 }

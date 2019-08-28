@@ -18,7 +18,7 @@
     "format-code": "prettier --write \"**/*{.ts,.tsx}\""
   },
   "devDependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.2"
   },
   "pkg": {
     "scripts": "server/lib/**/*.js",

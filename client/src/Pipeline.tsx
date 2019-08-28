@@ -32,9 +32,7 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
   const duration = getTotalBuildRunTimeMs(pipeline.builds);
 
   const navigateToGitLab = () => {
-    const url = `http://gitlab.bof.mm.local/${
-      pipeline._raw.project.path_with_namespace
-    }/pipelines/${pipeline.id}`;
+    const url = `http://gitlab.bof.mm.local/${pipeline._raw.project.path_with_namespace}/pipelines/${pipeline.id}`;
     window.open(url, '_blank');
     window.focus();
   };

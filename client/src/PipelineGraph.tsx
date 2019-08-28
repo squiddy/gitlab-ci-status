@@ -23,9 +23,7 @@ export function PipelineGraph({ pipeline }: { pipeline: PipelineData }) {
           <div className="flex flex-col mr-8 justify-center" key={stageName}>
             {builds.map(b => {
               const navigateToGitLab = () => {
-                const url = `http://gitlab.bof.mm.local/${
-                  pipeline._raw.project.path_with_namespace
-                }/-/jobs/${b.id}`;
+                const url = `http://gitlab.bof.mm.local/${pipeline._raw.project.path_with_namespace}/-/jobs/${b.id}`;
                 window.open(url, '_blank');
                 window.focus();
               };

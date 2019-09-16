@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\"",
-    "build-binary": "pkg --targets node10-linux package.json",
+    "build-binary": "pkg --targets node8-linux package.json",
     "build-docker": "docker build -t gitlab-ci-status .",
     "format-code": "prettier --write \"**/*{.ts,.tsx}\""
   },

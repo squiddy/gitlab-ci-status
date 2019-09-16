@@ -171,7 +171,7 @@ function App() {
         </div>
       </Sidebar>
       <div
-        className="flex-grow my-4"
+        className="flex-grow my-4 pl-12 pr-8"
         style={{
           opacity: sidebarVisible ? 0.5 : 1
         }}

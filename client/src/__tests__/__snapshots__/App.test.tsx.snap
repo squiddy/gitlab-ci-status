@@ -5,7 +5,7 @@ exports[`renders without crashing 1`] = `
   className="flex justify-between min-h-screen"
 >
   <aside
-    className="px-4 max-h-screen sticky pin-t"
+    className="px-4 h-screen fixed z-50 pin-t"
   >
     <svg
       className="fill-current my-4 w-4 h-4 cursor-pointer text-grey"
@@ -19,7 +19,7 @@ exports[`renders without crashing 1`] = `
     </svg>
   </aside>
   <div
-    className="flex-grow my-4"
+    className="flex-grow my-4 pl-12 pr-8"
     style={
       Object {
         "opacity": 1,

@@ -9,7 +9,7 @@ export function Sidebar(props: {
 }) {
   if (!props.isVisible) {
     return (
-      <aside className="px-4 max-h-screen sticky pin-t">
+      <aside className="px-4 h-screen fixed z-50 pin-t">
         <svg
           onClick={props.onToggleVisibility}
           className="fill-current my-4 w-4 h-4 cursor-pointer text-grey"
@@ -23,7 +23,7 @@ export function Sidebar(props: {
   }
 
   return (
-    <aside className="px-4 py-4 items-strech bg-white shadow max-h-screen sticky pin-t">
+    <aside className="px-4 py-4 items-strech bg-white shadow h-screen fixed z-50 pin-t">
       <div className="top-4">
         <svg
           onClick={props.onToggleVisibility}

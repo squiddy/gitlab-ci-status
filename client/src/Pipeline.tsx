@@ -68,8 +68,11 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
           <Avatar className="h-16 rounded-full m-1" obj={pipeline.user} />
         </div>
         <div className="flex-1 px-6 py-4">
-          <div className="font-bold text-xl mb-2">{pipeline.project.name}</div>
-          <p className="text-grey-darker text-base">{pipeline.ref}</p>
+          <div className="font-bold text-xl mb-1">{pipeline.project.name}</div>
+          <p className="text-grey-darker text-base mb-2">{pipeline.ref}</p>
+          <small className="text-grey-dark text-sm">
+            {pipeline._raw.commit.message}
+          </small>
         </div>
         <div className="p-4 flex-initial flex items-center">
           <StatusIcon className="h-12 w-12" status={pipeline.status} />

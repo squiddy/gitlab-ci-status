@@ -50,5 +50,8 @@ export interface PipelineData {
       namespace: string;
       path_with_namespace: string;
     };
+    commit: {
+      message: string;
+    };
   };
 }

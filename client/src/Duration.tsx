@@ -28,8 +28,8 @@ function useClock(isTicking: boolean) {
   return diff;
 }
 
-export function Duration(props: { ticking: boolean; value: number | null }) {
-  const diff = useClock(props.ticking);
+export function Duration(props: { ticking?: boolean; value: number | null }) {
+  const diff = useClock(props.ticking || false);
   const value = (props.value || 0) + diff;
 
   return (

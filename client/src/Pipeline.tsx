@@ -5,7 +5,7 @@ import { StatusIcon } from './StatusIcon';
 import { Duration } from './Duration';
 import { parseDate, isPipelineFinished } from './utils';
 import { PipelineGraph } from './PipelineGraph';
-import { BuildData, PipelineData } from './types';
+import { BuildData, PipelineData, Status } from './types';
 
 export function getTotalBuildRunTimeMs(builds: BuildData[]): number {
   return builds.reduce((sum, b) => {
@@ -24,12 +24,25 @@ export function getTotalBuildRunTimeMs(builds: BuildData[]): number {
   }, 0);
 }
 
+export function getRealDuration(pipeline: PipelineData): number | null {
+  const data = pipeline._raw.object_attributes;
+  if (!data.created_at || !data.finished_at) {
+    return null;
+  }
+
+  return (
+    parseDate(data.finished_at).getTime() / 1000 -
+    parseDate(data.created_at).getTime() / 1000
+  );
+}
+
 export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
   const [showDetails, setShowDetails] = useState(
     !isPipelineFinished(pipeline.status) || pipeline.status === 'failed'
   );
 
   const duration = getTotalBuildRunTimeMs(pipeline.builds);
+  const realDuration = getRealDuration(pipeline);
 
   const navigateToGitLab = () => {
     const url = `http://gitlab.bof.mm.local/${pipeline._raw.project.path_with_namespace}/pipelines/${pipeline.id}`;
@@ -39,8 +52,6 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
 
   const isMainRepository =
     pipeline._raw.project.namespace !== pipeline._raw.user.username;
-
-  const isFinished = isPipelineFinished(pipeline.status);
 
   return (
     <div
@@ -75,8 +86,19 @@ export function Pipeline({ pipeline }: { pipeline: PipelineData }) {
         )}
         <div className="flex justify-between items-center w-full px-4 py-2">
           <div className="text-xs">
-            {isFinished ? 'took' : 'running for'}{' '}
-            <Duration value={duration} ticking={!isFinished} />
+            {realDuration ? (
+              <>
+                took <Duration value={realDuration} /> (
+                <Duration value={duration} />)
+              </>
+            ) : (
+              pipeline.status !== Status.Skipped &&
+              pipeline.status !== Status.Canceled && (
+                <>
+                  running for <Duration value={duration} ticking />
+                </>
+              )
+            )}
           </div>
         </div>
       </div>

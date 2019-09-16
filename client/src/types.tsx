@@ -39,6 +39,10 @@ export interface PipelineData {
   ref: string;
 
   _raw: {
+    object_attributes: {
+      created_at: string | null;
+      finished_at: string | null;
+    };
     user: {
       username: string;
     };

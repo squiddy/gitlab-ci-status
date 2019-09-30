@@ -38,6 +38,18 @@ export class State extends EventEmitter {
     };
   }
 
+  load(data: any) {
+    this.data.builds = new Map(data.builds);
+    this.data.pipelines = new Map(data.pipelines);
+  }
+
+  dump() {
+    return {
+      builds: Array.from(this.data.builds.entries()),
+      pipelines: Array.from(this.data.pipelines.entries())
+    };
+  }
+
   handleBuild(data: WebhookBuild) {
     const entry = {
       id: data.build_id,

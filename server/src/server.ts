@@ -1,10 +1,10 @@
-import fs = require('fs');
 import path = require('path');
 
 import express, { Application } from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import { Patch } from 'immer';
 
 import { State } from './state';
 import { persistState, restoreState } from './utils';
@@ -67,6 +67,21 @@ function createServer(options: ServerOptions): Application {
       builds: Array.from(state.data.builds.entries()),
       pipelines: Array.from(state.data.pipelines.entries())
     });
+  });
+  app.get('/stream', (req, res) => {
+    const listener = (data: Patch[]) => {
+      res.write(`event: update\ndata: ${JSON.stringify(data)}\n\n`);
+    };
+
+    state.on('update', listener);
+    req.on('close', () => state.off('update', listener));
+
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive'
+    });
+    res.write('\n');
   });
 
   return app;

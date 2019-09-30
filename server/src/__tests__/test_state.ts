@@ -21,19 +21,19 @@ const pipelineData = {
 
 test('State can be constructed', () => {
   const state = new State();
-  expect(state.builds.size).toEqual(0);
-  expect(state.pipelines.size).toEqual(0);
+  expect(state.data.builds.size).toEqual(0);
+  expect(state.data.pipelines.size).toEqual(0);
 });
 
 test('State can handle new pipelines', () => {
   const state = new State();
   state.handlePipeline(pipelineData as WebhookPipeline);
 
-  expect(state.pipelines.size).toEqual(1);
-  expect(state.pipelines.get(5)!.id).toEqual(5);
-  expect(state.pipelines.get(5)!.builds).toEqual([2, 6]);
-  expect(state.pipelines.get(5)!._raw).toEqual(pipelineData);
-  expect(state.builds.size).toEqual(2);
+  expect(state.data.pipelines.size).toEqual(1);
+  expect(state.data.pipelines.get(5)!.id).toEqual(5);
+  expect(state.data.pipelines.get(5)!.builds).toEqual([2, 6]);
+  expect(state.data.pipelines.get(5)!._raw).toEqual(pipelineData);
+  expect(state.data.builds.size).toEqual(2);
 });
 
 test('State can handle updating pipelines', () => {
@@ -44,8 +44,8 @@ test('State can handle updating pipelines', () => {
   data.object_attributes.status = 'success';
   state.handlePipeline(data as WebhookPipeline);
 
-  expect(state.pipelines.size).toEqual(1);
-  expect(state.pipelines.get(5)!.status).toBe('success');
+  expect(state.data.pipelines.size).toEqual(1);
+  expect(state.data.pipelines.get(5)!.status).toBe('success');
 });
 
 test('State can handle updating builds', () => {
@@ -64,13 +64,13 @@ test('State can handle updating builds', () => {
       ]
     } as WebhookPipeline)
   );
-  expect(state.builds.get(2)!.status).toEqual('created');
-  expect(state.builds.get(6)!.status).toEqual('created');
+  expect(state.data.builds.get(2)!.status).toEqual('created');
+  expect(state.data.builds.get(6)!.status).toEqual('created');
 
   state.handleBuild({
     build_id: 6,
     build_status: 'success'
   } as WebhookBuild);
-  expect(state.builds.get(2)!.status).toEqual('created');
-  expect(state.builds.get(6)!.status).toEqual('success');
+  expect(state.data.builds.get(2)!.status).toEqual('created');
+  expect(state.data.builds.get(6)!.status).toEqual('success');
 });

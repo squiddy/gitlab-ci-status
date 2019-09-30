@@ -23,6 +23,7 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "express": "^4.17.1",
+    "immer": "^4.0.0-beta.0",
     "morgan": "^1.9.1"
   },
   "devDependencies": {

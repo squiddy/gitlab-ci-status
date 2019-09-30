@@ -1,3 +1,7 @@
+import { EventEmitter } from 'events';
+
+import { produce } from 'immer';
+
 import { WebhookBuild, WebhookPipeline } from './webhook';
 
 interface PipelineState {
@@ -17,13 +21,21 @@ interface BuildState {
   _raw: any;
 }
 
-export class State {
+interface StateData {
   pipelines: Map<number, PipelineState>;
   builds: Map<number, BuildState>;
+}
+
+export class State extends EventEmitter {
+  data: StateData;
 
   constructor() {
-    this.pipelines = new Map();
-    this.builds = new Map();
+    super();
+
+    this.data = {
+      pipelines: new Map(),
+      builds: new Map()
+    };
   }
 
   handleBuild(data: WebhookBuild) {
@@ -36,7 +48,15 @@ export class State {
       _raw: data
     };
 
-    this.builds.set(data.build_id, entry);
+    this.data = produce(
+      this.data,
+      draft => {
+        draft.builds.set(data.build_id, entry);
+      },
+      patches => {
+        this.emit('update', patches);
+      }
+    );
   }
 
   handlePipeline(data: WebhookPipeline) {
@@ -56,17 +76,24 @@ export class State {
       _raw: data
     };
 
-    this.pipelines.set(entry.id, entry);
-
-    data.builds.forEach(build => {
-      this.builds.set(build.id, {
-        id: build.id,
-        stage: build.stage,
-        status: build.status,
-        started_at: build.started_at,
-        finished_at: build.finished_at,
-        _raw: build
-      });
-    });
+    this.data = produce(
+      this.data,
+      draft => {
+        draft.pipelines.set(entry.id, entry);
+        data.builds.forEach(build => {
+          draft.builds.set(build.id, {
+            id: build.id,
+            stage: build.stage,
+            status: build.status,
+            started_at: build.started_at,
+            finished_at: build.finished_at,
+            _raw: build
+          });
+        });
+      },
+      patches => {
+        this.emit('update', patches);
+      }
+    );
   }
 }

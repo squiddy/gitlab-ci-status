@@ -47,7 +47,7 @@ function createServer(options: ServerOptions): Application {
   app.use(express.static(publicDir));
   app.post('/webhook/', bodyParser.json(), handler);
   app.get('/initial', (req, res) => {
-    const pipelines = Array.from(state.pipelines.values())
+    const pipelines = Array.from(state.data.pipelines.values())
       .sort((a, b) => {
         const isSmaller = new Date(a.created_at) < new Date(b.created_at);
         return isSmaller ? 1 : -1;
@@ -56,7 +56,7 @@ function createServer(options: ServerOptions): Application {
 
     const data = pipelines.map(p => {
       return Object.assign({}, p, {
-        builds: p.builds.map(id => state.builds.get(id))
+        builds: p.builds.map(id => state.data.builds.get(id))
       });
     });
 
@@ -64,8 +64,8 @@ function createServer(options: ServerOptions): Application {
   });
   app.get('/state', (req, res) => {
     res.type('json').send({
-      builds: Array.from(state.builds.entries()),
-      pipelines: Array.from(state.pipelines.entries())
+      builds: Array.from(state.data.builds.entries()),
+      pipelines: Array.from(state.data.pipelines.entries())
     });
   });
 

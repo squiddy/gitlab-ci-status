@@ -26,6 +26,18 @@ export class State {
     this.builds = new Map();
   }
 
+  load(data: any) {
+    this.builds = new Map(data.builds);
+    this.pipelines = new Map(data.pipelines);
+  }
+
+  dump() {
+    return {
+      builds: Array.from(this.builds.entries()),
+      pipelines: Array.from(this.pipelines.entries())
+    };
+  }
+
   handleBuild(data: WebhookBuild) {
     const entry = {
       id: data.build_id,

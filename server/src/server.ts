@@ -1,4 +1,3 @@
-import fs = require('fs');
 import path = require('path');
 
 import express, { Application } from 'express';

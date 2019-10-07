@@ -6,8 +6,7 @@ export function restoreState(state: State, filename: string) {
   try {
     const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
     if (data) {
-      state.builds = new Map(data.builds);
-      state.pipelines = new Map(data.pipelines);
+      state.load(data);
     }
   } catch (err) {
     console.log("Couldn't restore state from disk:", err);
@@ -16,13 +15,7 @@ export function restoreState(state: State, filename: string) {
 
 export function persistState(state: State, filename: string) {
   try {
-    fs.writeFileSync(
-      filename,
-      JSON.stringify({
-        builds: Array.from(state.builds.entries()),
-        pipelines: Array.from(state.pipelines.entries())
-      })
-    );
+    fs.writeFileSync(filename, state.dump());
   } catch (err) {
     console.log("Couldn't persist state to disk:", err);
   }
